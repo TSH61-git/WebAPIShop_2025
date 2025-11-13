@@ -21,6 +21,25 @@ passwordForUpdate.value = currentUser.userPassword;
 
 
 const update = async () => {
+
+    const password = passwordForUpdate.value;
+
+    const response = await fetch('https://localhost:44367/api/Users/checkPassword', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(password)
+    });
+    if (response.status === 204) {
+        const score = Number(response.headers.get('X-Password-Score'));
+        if (score < 2) {
+            alert("הסיסמה שלך חלשה מדי, בחר סיסמה חזקה יותר");
+            return;
+        }
+    }
+    else {
+        alert("Error");
+    }
+
     const updateUser = {
         UserId: currentUser.UserId,
         UserEmail: emailForUpdate.value,

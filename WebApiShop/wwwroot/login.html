@@ -79,6 +79,20 @@
         button:hover {
             background-color: #3b558c;
         }
+
+        #strengthBar {
+            display: flex;
+            gap: 5px;
+            margin-top: 12px;
+        }
+
+        .level {
+            width: 40px;
+            height: 20px;
+            background-color: #ddd;
+            border-radius: 4px;
+            transition: 0.3s;
+        }
     </style>
 </head>
 <body>
@@ -87,7 +101,7 @@
             <h3>משתמש רשום</h3>
             <label>שם משתמש</label>
             <input type="email" id="loginUserName" required />
-            <label >סיסמא</label>
+            <label>סיסמא</label>
             <input type="password" id="loginUserPassword" required />
             <button onClick="login()">שליחה</button>
         </div>
@@ -99,11 +113,23 @@
             <label for="firstName">שם פרטי</label>
             <input type="text" id="firstName" name="firstName" required />
             <label for="lastName">שם משפחה</label>
-            <input type="text" id="lastName" name="lastName"  required />
+            <input type="text" id="lastName" name="lastName" required />
             <label for="password">סיסמא</label>
             <input type="password" id="password" name="password" required />
             <button onClick="register()">שליחה</button>
         </div>
+
+
+        <button onClick="checkStrength()"> בדוק חוזק סיסמא </button>
+
+        <div id="strengthBar">
+            <div class="level" id="l0"></div>
+            <div class="level" id="l1"></div>
+            <div class="level" id="l2"></div>
+            <div class="level" id="l3"></div>
+            <div class="level" id="l4"></div>
+        </div>
+
 
     </div>
 </body>

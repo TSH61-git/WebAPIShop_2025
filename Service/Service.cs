@@ -1,5 +1,7 @@
 ﻿using Entity;
 using Repository;
+using Zxcvbn;
+
 namespace Service
 {
     public class Service
@@ -14,6 +16,7 @@ namespace Service
 
         public Users addUser(Users user)
         {
+
             return repository.addUser(user);
         }  
 
@@ -27,5 +30,11 @@ namespace Service
             repository.updateUser(id, myUser);
         }
 
+
+        public int checkPasswordStrong(string password)
+        {
+            var result = Zxcvbn.Core.EvaluatePassword(password);
+            return result.Score;
+        }
     }
 }

@@ -45,11 +45,20 @@ namespace WebAPIShop.Controllers
             return NotFound();
         }
 
+        [HttpPost("checkPassword")]
+        public ActionResult<int> checkPassword([FromBody]string password)
+        {
+            var score = _service.checkPasswordStrong(password);
+            Response.Headers.Add("X-Password-Score", score.ToString());
+            return NoContent();
+        }
+
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Users myUser)
+        public ActionResult Put(int id, [FromBody] Users myUser)
         {
             _service.updateUser(id, myUser);
+            return NoContent();
         }
 
         // DELETE api/<UsersController>/5
