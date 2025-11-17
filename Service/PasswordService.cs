@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Service
 {
-    public class PasswordService
+    public class PasswordService : IPasswordService
     {
 
         public Passwords checkPasswordStrong(Passwords password)

@@ -2,7 +2,7 @@
 using System.Text.Json;
 namespace Repository
 {
-    public class UserRepository
+    public class UserRepository : IUserRepository
     {
         string _filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "usersInfo.txt");
 

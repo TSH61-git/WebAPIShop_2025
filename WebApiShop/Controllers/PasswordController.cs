@@ -8,10 +8,14 @@ namespace WebApiShop.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PasswordController : ControllerBase
+    public class PasswordController : ControllerBase, IPasswordController
     {
+        IPasswordService _iPasswordService;
 
-        private readonly Service.PasswordService _service = new Service.PasswordService();
+        public PasswordController(IUserService userService, IPasswordService passwordService)
+        {
+            _iPasswordService = passwordService;
+        }
 
         // GET: api/<PasswordController>
         [HttpGet]
@@ -31,7 +35,7 @@ namespace WebApiShop.Controllers
         [HttpPost]
         public IActionResult checkPassword([FromBody] Passwords password)
         {
-            Passwords resPassword = _service.checkPasswordStrong(password);
+            Passwords resPassword = _iPasswordService.checkPasswordStrong(password);
             if (resPassword == null)
                 return NoContent();
             return Ok(resPassword);

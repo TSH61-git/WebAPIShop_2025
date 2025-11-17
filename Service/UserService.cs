@@ -4,25 +4,29 @@ using Zxcvbn;
 
 namespace Service
 {
-    public class UserService
+    public class UserService : IUserService
     {
+        private readonly IUserRepository _userRepository;
 
-        private readonly Repository.UserRepository repository  = new Repository.UserRepository();
+        public UserService(IUserRepository userRepository)
+        {
+            _userRepository = userRepository;
+        }
 
         public Users getUserByID(int id)
         {
-            return repository.getUserByID(id);
+            return _userRepository.getUserByID(id);
         }
 
         public Users addUser(Users user)
         {
 
-            return repository.addUser(user);
-        }  
+            return _userRepository.addUser(user);
+        }
 
         public Users loginUser(Users loginUser)
         {
-            return repository.loginUser(loginUser);
+            return _userRepository.loginUser(loginUser);
         }
 
         public bool updateUser(int id, Users user)
@@ -30,7 +34,7 @@ namespace Service
             var result = Zxcvbn.Core.EvaluatePassword(user.UserPassword);
             if (result.Score >= 2)
             {
-                repository.updateUser(id, user);
+                _userRepository.updateUser(id, user);
                 return true;
             }
             return false;

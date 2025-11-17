@@ -10,10 +10,16 @@ namespace WebAPIShop.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController : ControllerBase, IUserController
     {
-        private readonly Service.PasswordService _pservice = new Service.PasswordService();
-        private readonly Service.UserService _service = new Service.UserService();
+        IUserService _iUserService;
+        IPasswordService _iPasswordService;
+
+        public UserController(IUserService userService, IPasswordService passwordService)
+        {
+            _iUserService = userService;
+            _iPasswordService = passwordService;
+        }
 
         // GET: api/<UsersController>
         [HttpGet]
@@ -26,9 +32,9 @@ namespace WebAPIShop.Controllers
         [HttpGet("{id}")]
         public ActionResult<Users> Get(int id)
         {
-            var user = _service.getUserByID(id);
+            var user = _iUserService.getUserByID(id);
             if (user == null)
-                return NoContent(); 
+                return NoContent();
             return Ok(user);
         }
 
@@ -36,17 +42,17 @@ namespace WebAPIShop.Controllers
         [HttpPost]
         public ActionResult<Users> Post([FromBody] Users user)
         {
-            bool p = _pservice.isPasswordStrong(user.UserPassword);
-            if(!p)
+            bool p = _iPasswordService.isPasswordStrong(user.UserPassword);
+            if (!p)
                 return BadRequest("Password is not strong enough.");
-            var newUser = _service.addUser(user);
+            var newUser = _iUserService.addUser(user);
             return CreatedAtAction(nameof(Get), new { id = newUser.UserId }, newUser);
         }
 
         [HttpPost("login")]
         public ActionResult<Users> Login([FromBody] Users loginUser)
         {
-            var user = _service.loginUser(loginUser);
+            var user = _iUserService.loginUser(loginUser);
             if (user != null)
                 return Ok(user);
             return NotFound();
@@ -56,7 +62,7 @@ namespace WebAPIShop.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] Users myUser)
         {
-            bool p = _service.updateUser(id, myUser);
+            bool p = _iUserService.updateUser(id, myUser);
             if (!p)
                 return BadRequest("Password is not strong enough");
             return NoContent();
