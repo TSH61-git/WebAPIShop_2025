@@ -1,15 +1,19 @@
-﻿using Entity;
-using Service;
+﻿using Entities;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Documents;
+using Service;
+
 
 namespace WebAPIShop.Controllers
 {
 
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class UserController : ControllerBase
     {
-        private readonly Service.Service _service = new Service.Service();
+        private readonly Service.PasswordService _pservice = new Service.PasswordService();
+        private readonly Service.UserService _service = new Service.UserService();
 
         // GET: api/<UsersController>
         [HttpGet]
@@ -32,12 +36,15 @@ namespace WebAPIShop.Controllers
         [HttpPost]
         public ActionResult<Users> Post([FromBody] Users user)
         {
+            bool p = _pservice.isPasswordStrong(user.UserPassword);
+            if(!p)
+                return BadRequest("Password is not strong enough.");
             var newUser = _service.addUser(user);
             return CreatedAtAction(nameof(Get), new { id = newUser.UserId }, newUser);
         }
 
         [HttpPost("login")]
-        public ActionResult<Users> Login([FromBody] LoginUsers loginUser)
+        public ActionResult<Users> Login([FromBody] Users loginUser)
         {
             var user = _service.loginUser(loginUser);
             if (user != null)
@@ -45,19 +52,13 @@ namespace WebAPIShop.Controllers
             return NotFound();
         }
 
-        [HttpPost("checkPassword")]
-        public ActionResult<int> checkPassword([FromBody]string password)
-        {
-            var score = _service.checkPasswordStrong(password);
-            Response.Headers.Add("X-Password-Score", score.ToString());
-            return NoContent();
-        }
-
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] Users myUser)
+        public IActionResult Put(int id, [FromBody] Users myUser)
         {
-            _service.updateUser(id, myUser);
+            bool p = _service.updateUser(id, myUser);
+            if (!p)
+                return BadRequest("Password is not strong enough");
             return NoContent();
         }
 

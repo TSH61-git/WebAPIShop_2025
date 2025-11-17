@@ -1,8 +1,8 @@
-﻿using Entity;
+﻿using Entities;
 using System.Text.Json;
 namespace Repository
 {
-    public class Repository
+    public class UserRepository
     {
         string _filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "usersInfo.txt");
 
@@ -30,7 +30,7 @@ namespace Repository
             return user;
         }
 
-        public Users loginUser(LoginUsers loginUser)
+        public Users loginUser(Users loginUser)
         {
             using (StreamReader reader = System.IO.File.OpenText(_filePath))
             {
@@ -38,7 +38,7 @@ namespace Repository
                 while ((currentUserInFile = reader.ReadLine()) != null)
                 {
                     Users user = JsonSerializer.Deserialize<Users>(currentUserInFile);
-                    if (user.UserEmail == loginUser.LoginUserEmail && user.UserPassword == loginUser.LoginUserPassword)
+                    if (user.UserEmail == loginUser.UserEmail && user.UserPassword == loginUser.UserPassword)
                         return user;
                 }
             }

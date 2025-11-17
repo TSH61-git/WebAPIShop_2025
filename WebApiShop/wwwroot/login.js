@@ -6,29 +6,6 @@ const passwordForUpdate = document.querySelector("#password");
 
 const register = async () => {
 
-    const password = passwordForUpdate.value;
-
-    try {
-        const response = await fetch('https://localhost:44367/api/Users/checkPassword', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(password)
-        });
-        if (response.status === 204) {
-            const score = Number(response.headers.get('X-Password-Score'));
-            if (score < 2) {
-                alert("הסיסמה שלך חלשה מדי, בחר סיסמה חזקה יותר");
-                return;
-            }
-        }
-        else {
-            alert("Error");
-        }
-    }
-    catch (error) {
-        console.error('Error occurred:', error);
-    }
-
     const newUser = {
         userId: 0,
         UserEmail: emailForUpdate.value,
@@ -38,7 +15,7 @@ const register = async () => {
     }
 
     try {
-        const response = await fetch('https://localhost:44367/api/Users', {
+        const response = await fetch('https://localhost:44367/api/User', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -52,6 +29,7 @@ const register = async () => {
             alert("יש בעיה בהרשמה, נסה שוב..");
     }
     catch (error) {
+        alert(error.message);
         console.error('Error occurred:', error);
     }
     
@@ -64,12 +42,14 @@ const loginUserPassword = document.querySelector("#loginUserPassword");
 
 const login = async () => {
     const loginUser = {
-        loginUserEmail: loginUserEmail.value,
-        loginUserPassword: loginUserPassword.value,
+        UserEmail: loginUserEmail.value,
+        UserFirstName: '',
+        UserLastName: '',
+        UserPassword: loginUserPassword.value,
     }
 
     try {
-        const response = await fetch('https://localhost:44367/api/Users/login', {
+        const response = await fetch('https://localhost:44367/api/User/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -92,35 +72,30 @@ const login = async () => {
 
 const checkStrength = async () => {
     const password = passwordForUpdate.value;
+    const passwordObj = {
+        password: password,
+        Strength: 0
+    };
     try {
-        const response = await fetch('https://localhost:44367/api/Users/checkPassword', {
+        const response = await fetch('https://localhost:44367/api/Password', {  ///checkPassword', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(password)
+            body: JSON.stringify(passwordObj)
         })
-        if (response.status === 204) {
-            const score = Number(response.headers.get('X-Password-Score'));
-            updateStrengthUI(score);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status${response.status}`)
         }
-        else {
-            alert("Error");
-        }
+        const result = await response.json();
+        const score = Number(result.strength);
+        const bar = document.getElementById("progressBar");
+        bar.value = score * 25;
     }
     catch (error) {
+        alert("error")
         console.error('Error occurred:', error);
     }
 }
-
-
-function updateStrengthUI(score) {
-    const colors = ["#ff4d4d", "#ff944d", "#ffdb4d", "#80ff80", "#33cc33"];
-    for (let i = 0; i < 5; i++) {
-        const box = document.getElementById("l" + i);
-        box.style.backgroundColor = (i <= score) ? colors[score] : "#ddd";
-    }
-}
-
 
 

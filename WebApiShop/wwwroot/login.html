@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="he">
 <head>
-    <meta charset="utf-8" />
+    <meta charset="UTF-8">
     <script defer src="login.js"></script>
     <title>myWebApi</title>
     <style>
@@ -19,33 +19,37 @@
 
         .cont {
             display: flex;
-            flex-direction: row;
-            gap: 2.5vw; 
+            flex-direction: column;
             background-color: #ffffff;
             padding: 2vw;
             border-radius: 12px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-            align-items: flex-start; 
+            align-items: stretch;
+            width: 260px;
         }
 
-        .existUser, .newUser {
-            display: flex;
+        input[type="radio"] {
+            display: none;
+        }
+
+        .section {
+            display: none;
             flex-direction: column;
-            width: 220px; 
-            padding: 1.5rem;
-            border-radius: 10px;
-            background-color: #f9faff; 
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
+            gap: 0.8rem;
+        }
+
+        #login:checked ~ .cont #existUser,
+        #register:checked ~ .cont #newUser {
+            display: flex;
         }
 
         h3 {
-            margin-bottom: 1.2rem;
+            margin-bottom: 1rem;
             color: #4a6fa5;
+            text-align: center;
         }
 
         label {
-            margin-top: 0.8rem;
-            margin-bottom: 0.3rem;
             font-size: 0.9rem;
             color: #555;
         }
@@ -59,13 +63,13 @@
             transition: border-color 0.3s, box-shadow 0.3s;
         }
 
-        input:focus {
-            border-color: #4a6fa5;
-            box-shadow: 0 0 5px rgba(74, 111, 165, 0.3);
-        }
+            input:focus {
+                border-color: #4a6fa5;
+                box-shadow: 0 0 5px rgba(74, 111, 165, 0.3);
+            }
 
         button {
-            margin-top: 1.5rem;
+            margin-top: 1rem;
             padding: 0.6rem;
             border: none;
             border-radius: 6px;
@@ -76,37 +80,47 @@
             transition: background-color 0.3s;
         }
 
-        button:hover {
-            background-color: #3b558c;
+            button:hover {
+                background-color: #3b558c;
+            }
+
+        label.toggle {
+            margin-top: 1rem;
+            text-align: center;
+            color: blue;
+            cursor: pointer;
+            font-size: 0.9rem;
         }
 
-        #strengthBar {
-            display: flex;
-            gap: 5px;
-            margin-top: 12px;
-        }
-
-        .level {
-            width: 40px;
-            height: 20px;
-            background-color: #ddd;
-            border-radius: 4px;
-            transition: 0.3s;
+        #progressBar {
+            width: 100%;
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-top: 8px;
+            appearance: none;
+            -webkit-appearance: none;
+            background-color: #e0e0e0;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
         }
     </style>
 </head>
 <body>
+    <input type="radio" id="login" name="toggle" checked>
+    <input type="radio" id="register" name="toggle">
+
     <div class="cont">
-        <div class="existUser">
+        <div class="existUser section" id="existUser">
             <h3>משתמש רשום</h3>
             <label>שם משתמש</label>
             <input type="email" id="loginUserName" required />
             <label>סיסמא</label>
             <input type="password" id="loginUserPassword" required />
             <button onClick="login()">שליחה</button>
+            <label for="register" class="toggle">משתמש חדש?</label>
         </div>
 
-        <div class="newUser">
+        <div class="newUser section" id="newUser">
             <h3>משתמש חדש</h3>
             <label for="userName">שם משתמש</label>
             <input type="email" id="userName" name="userName" required />
@@ -116,21 +130,12 @@
             <input type="text" id="lastName" name="lastName" required />
             <label for="password">סיסמא</label>
             <input type="password" id="password" name="password" required />
+            <button onClick="checkStrength()"> בדוק חוזק סיסמא </button>
+            <progress id="progressBar" value="0" max="100"></progress>
             <button onClick="register()">שליחה</button>
+            <label for="login" class="toggle">כבר רשום?</label>
         </div>
-
-
-        <button onClick="checkStrength()"> בדוק חוזק סיסמא </button>
-
-        <div id="strengthBar">
-            <div class="level" id="l0"></div>
-            <div class="level" id="l1"></div>
-            <div class="level" id="l2"></div>
-            <div class="level" id="l3"></div>
-            <div class="level" id="l4"></div>
-        </div>
-
-
     </div>
 </body>
 </html>
+
