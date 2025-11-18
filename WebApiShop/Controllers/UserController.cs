@@ -32,9 +32,9 @@ namespace WebAPIShop.Controllers
         [HttpGet("{id}")]
         public ActionResult<Users> Get(int id)
         {
-            var user = _iUserService.getUserByID(id);
+            var user = _iUserService.GetUserById(id);
             if (user == null)
-                return NoContent();
+                return NotFound();
             return Ok(user);
         }
 
@@ -42,17 +42,17 @@ namespace WebAPIShop.Controllers
         [HttpPost]
         public ActionResult<Users> Post([FromBody] Users user)
         {
-            bool p = _iPasswordService.isPasswordStrong(user.UserPassword);
+            bool p = _iPasswordService.IsPasswordStrong(user.UserPassword);
             if (!p)
                 return BadRequest("Password is not strong enough.");
-            var newUser = _iUserService.addUser(user);
+            var newUser = _iUserService.AddUser(user);
             return CreatedAtAction(nameof(Get), new { id = newUser.UserId }, newUser);
         }
 
         [HttpPost("login")]
         public ActionResult<Users> Login([FromBody] Users loginUser)
         {
-            var user = _iUserService.loginUser(loginUser);
+            var user = _iUserService.LoginUser(loginUser);
             if (user != null)
                 return Ok(user);
             return NotFound();
@@ -62,7 +62,7 @@ namespace WebAPIShop.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] Users myUser)
         {
-            bool p = _iUserService.updateUser(id, myUser);
+            bool p = _iUserService.UpdateUser(id, myUser);
             if (!p)
                 return BadRequest("Password is not strong enough");
             return NoContent();
