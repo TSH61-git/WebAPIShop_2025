@@ -4,9 +4,9 @@ namespace Repository
 {
     public class UserRepository : IUserRepository
     {
-        string _filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "usersInfo.txt");
+        private readonly string _filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "usersInfo.txt");
 
-        public Users getUserByID(int id)
+        public Users GetUserById(int id)
         {
             using (StreamReader reader = System.IO.File.OpenText(_filePath))
             {
@@ -21,7 +21,7 @@ namespace Repository
             return null;
         }
 
-        public Users addUser(Users user)
+        public Users AddUser(Users user)
         {
             int numberOfUsers = System.IO.File.ReadLines(_filePath).Count();
             user.UserId = numberOfUsers + 1;
@@ -30,7 +30,7 @@ namespace Repository
             return user;
         }
 
-        public Users loginUser(Users loginUser)
+        public Users LoginUser(Users loginUser)
         {
             using (StreamReader reader = System.IO.File.OpenText(_filePath))
             {
@@ -45,7 +45,7 @@ namespace Repository
             return null;
         }
 
-        public void updateUser(int id, Users myUser)
+        public void UpdateUser(int id, Users myUser)
         {
             string textToReplace = string.Empty;
             using (StreamReader reader = System.IO.File.OpenText(_filePath))
