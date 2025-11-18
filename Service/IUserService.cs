@@ -4,9 +4,9 @@ namespace Service
 {
     public interface IUserService
     {
-        Users addUser(Users user);
-        Users getUserByID(int id);
-        Users loginUser(Users loginUser);
-        bool updateUser(int id, Users user);
+        Users AddUser(Users user);
+        Users GetUserById(int id);
+        Users LoginUser(Users loginUser);
+        bool UpdateUser(int id, Users user);
     }
 }
