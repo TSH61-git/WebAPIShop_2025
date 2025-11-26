@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Repository;
 using Service;
 
@@ -13,6 +14,9 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPasswordService, PasswordService>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+builder.Services.AddDbContext<Repository.Models.MyWebApiShopContext>
+    (option=> option.UseSqlServer("Data Source=localhost\\SQLEXPRESS;Initial Catalog=MyWebApiShop;Integrated Security=True; TrustServerCertificate=True"));
 
 var app = builder.Build();
 

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.Documents;
 using Service;
+using User = Entities.User;
 
 
 namespace WebAPIShop.Controllers
@@ -30,7 +31,7 @@ namespace WebAPIShop.Controllers
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        public ActionResult<Users> Get(int id)
+        public ActionResult<User> Get(int id)
         {
             var user = _iUserService.GetUserById(id);
             if (user == null)
@@ -40,7 +41,7 @@ namespace WebAPIShop.Controllers
 
         // POST api/<UsersController>
         [HttpPost]
-        public ActionResult<Users> Post([FromBody] Users user)
+        public ActionResult<User> Post([FromBody] User user)
         {
             bool p = _iPasswordService.IsPasswordStrong(user.UserPassword);
             if (!p)
@@ -50,7 +51,7 @@ namespace WebAPIShop.Controllers
         }
 
         [HttpPost("login")]
-        public ActionResult<Users> Login([FromBody] Users loginUser)
+        public ActionResult<User> Login([FromBody] User loginUser)
         {
             var user = _iUserService.LoginUser(loginUser);
             if (user != null)
@@ -60,7 +61,7 @@ namespace WebAPIShop.Controllers
 
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Users myUser)
+        public IActionResult Put(int id, [FromBody] User myUser)
         {
             bool p = _iUserService.UpdateUser(id, myUser);
             if (!p)

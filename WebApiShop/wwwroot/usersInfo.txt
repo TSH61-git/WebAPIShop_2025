@@ -26,3 +26,4 @@
 {"UserId":0,"UserEmail":"qwqw@ff","UserFirstName":"qwqw","UserLastName":"q1!!ade3","UserPassword":"1qa!!3d"}
 {"UserId":27,"UserEmail":"rrrr@1234","UserFirstName":"tami","UserLastName":"12!A\u05E9!3","UserPassword":"12!A\u05E9!3"}
 {"UserId":28,"UserEmail":"tami@1234gggg","UserFirstName":"tt","UserLastName":"levin","UserPassword":"\u05E732\u05D21\u05D34\u05E7"}
+{"UserId":0,"UserEmail":"qwqw@ff","UserFirstName":"tami","UserLastName":"12\u0027/!!\u05E9\u05E9","UserPassword":"12\u0027/!!\u05E9\u05E9"}

@@ -4,9 +4,9 @@ namespace Repository
 {
     public interface IUserRepository
     {
-        Users AddUser(Users user);
-        Users GetUserById(int id);
-        Users LoginUser(Users loginUser);
-        void UpdateUser(int id, Users myUser);
+        User AddUser(User user);
+        User GetUserById(int id);
+        User LoginUser(User loginUser);
+        void UpdateUser(int id, User myUser);
     }
 }

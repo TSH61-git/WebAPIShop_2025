@@ -1,72 +1,50 @@
 ﻿using Entities;
+using Repository.Models;
 using System.Text.Json;
 namespace Repository
 {
     public class UserRepository : IUserRepository
     {
-        private readonly string _filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "usersInfo.txt");
 
-        public Users GetUserById(int id)
+        MyWebApiShopContext _context;
+        public UserRepository(MyWebApiShopContext context)
         {
-            using (StreamReader reader = System.IO.File.OpenText(_filePath))
-            {
-                string? currentUserInFile;
-                while ((currentUserInFile = reader.ReadLine()) != null)
-                {
-                    Users user = JsonSerializer.Deserialize<Users>(currentUserInFile);
-                    if (user.UserId == id)
-                        return user;
-                }
-            }
-            return null;
+            _context = context;
         }
 
-        public Users AddUser(Users user)
+        public User GetUserById(int id)
         {
-            int numberOfUsers = System.IO.File.ReadLines(_filePath).Count();
-            user.UserId = numberOfUsers + 1;
-            string userJson = JsonSerializer.Serialize(user);
-            System.IO.File.AppendAllText(_filePath, userJson + Environment.NewLine);
+            User? user = _context.Users.Find(id);
             return user;
         }
 
-        public Users LoginUser(Users loginUser)
+        public User AddUser(User user)
         {
-            using (StreamReader reader = System.IO.File.OpenText(_filePath))
-            {
-                string? currentUserInFile;
-                while ((currentUserInFile = reader.ReadLine()) != null)
-                {
-                    Users user = JsonSerializer.Deserialize<Users>(currentUserInFile);
-                    if (user.UserEmail == loginUser.UserEmail && user.UserPassword == loginUser.UserPassword)
-                        return user;
-                }
-            }
-            return null;
+            _context.Users.Add(user);
+            _context.SaveChanges();
+            return user;
         }
 
-        public void UpdateUser(int id, Users myUser)
+        public User LoginUser(User loginUser)
         {
-            string textToReplace = string.Empty;
-            using (StreamReader reader = System.IO.File.OpenText(_filePath))
-            {
-                string currentUserInFile;
-                while ((currentUserInFile = reader.ReadLine()) != null)
-                {
+            User? user = _context.Users
+                .FirstOrDefault(u => u.UserEmail == loginUser.UserEmail && u.UserPassword == loginUser.UserPassword);
+            return user;
+        }
 
-                    Users user = JsonSerializer.Deserialize<Users>(currentUserInFile);
-                    if (user.UserId == id)
-                        textToReplace = currentUserInFile;
-                }
-            }
-
-            if (textToReplace != string.Empty)
+        public void UpdateUser(int id, User myUser)
+        {
+            User user1 = _context.Users.Find(id);
+            if (user1 != null)
             {
-                string text = System.IO.File.ReadAllText(_filePath);
-                text = text.Replace(textToReplace, JsonSerializer.Serialize(myUser));
-                System.IO.File.WriteAllText(_filePath, text);
+                user1.UserEmail = myUser.UserEmail;
+                user1.UserFirstName = myUser.UserFirstName;
+                user1.UserLastName = myUser.UserLastName;
+                user1.UserPassword = myUser.UserPassword;
+                _context.SaveChanges();
             }
         }
+
 
     }
 }
