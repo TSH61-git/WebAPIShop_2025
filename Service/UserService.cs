@@ -13,28 +13,28 @@ namespace Service
             _userRepository = userRepository;
         }
 
-        public User GetUserById(int id)
+        public Task<User> GetUserByIdasync(int id)
         {
-            return _userRepository.GetUserById(id);
+            return _userRepository.GetUserByIdasync(id);
         }
 
-        public User AddUser(User user)
+        public Task<User> AddUserasync(User user)
         {
 
-            return _userRepository.AddUser(user);
+            return _userRepository.AddUserasync(user);
         }
 
-        public User LoginUser(User loginUser)
+        async public Task<User> LoginUserasync(User loginUser)
         {
-            return _userRepository.LoginUser(loginUser);
+            return await _userRepository.LoginUserasync(loginUser);
         }
 
-        public bool UpdateUser(int id, User user)
+        public bool UpdateUserasync(int id, User user)
         {
             var result = Zxcvbn.Core.EvaluatePassword(user.UserPassword);
             if (result.Score >= 2)
             {
-                _userRepository.UpdateUser(id, user);
+                _userRepository.UpdateUserasync(id, user);
                 return true;
             }
             return false;

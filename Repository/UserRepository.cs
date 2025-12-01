@@ -12,27 +12,27 @@ namespace Repository
             _context = context;
         }
 
-        public User GetUserById(int id)
+        async public Task<User> GetUserByIdasync(int id)
         {
             User? user = _context.Users.Find(id);
             return user;
         }
 
-        public User AddUser(User user)
+        async public Task<User> AddUserasync(User user)
         {
             _context.Users.Add(user);
             _context.SaveChanges();
             return user;
         }
 
-        public User LoginUser(User loginUser)
+        async public Task<User> LoginUserasync(User loginUser)
         {
             User? user = _context.Users
                 .FirstOrDefault(u => u.UserEmail == loginUser.UserEmail && u.UserPassword == loginUser.UserPassword);
             return user;
         }
 
-        public void UpdateUser(int id, User myUser)
+        async public Task UpdateUserasync(int id, User myUser)
         {
             User user1 = _context.Users.Find(id);
             if (user1 != null)

@@ -4,9 +4,9 @@ namespace Repository
 {
     public interface IUserRepository
     {
-        User AddUser(User user);
-        User GetUserById(int id);
-        User LoginUser(User loginUser);
-        void UpdateUser(int id, User myUser);
+        Task<User> AddUserasync(User user);
+        Task<User> GetUserByIdasync(int id);
+        Task<User> LoginUserasync(User loginUser);
+        Task UpdateUserasync(int id, User myUser);
     }
 }

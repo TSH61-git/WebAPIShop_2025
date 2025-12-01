@@ -4,9 +4,9 @@ namespace Service
 {
     public interface IUserService
     {
-        User AddUser(User user);
-        User GetUserById(int id);
-        User LoginUser(User loginUser);
-        bool UpdateUser(int id, User user);
+        Task<User> AddUserasync(User user);
+        Task<User> GetUserByIdasync(int id);
+        Task<User> LoginUserasync(User loginUser);
+        bool UpdateUserasync(int id, User user);
     }
 }

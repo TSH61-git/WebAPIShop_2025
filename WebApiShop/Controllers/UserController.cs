@@ -24,16 +24,16 @@ namespace WebAPIShop.Controllers
 
         // GET: api/<UsersController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        async public Task<IEnumerable<string>> Get()
         {
             return new string[] { "can't show users list:(" };
         }
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        public ActionResult<User> Get(int id)
+        async public Task<ActionResult<User>> Get(int id)
         {
-            var user = _iUserService.GetUserById(id);
+            var user = await _iUserService.GetUserByIdasync(id);
             if (user == null)
                 return NotFound();
             return Ok(user);
@@ -41,19 +41,19 @@ namespace WebAPIShop.Controllers
 
         // POST api/<UsersController>
         [HttpPost]
-        public ActionResult<User> Post([FromBody] User user)
+        async public Task<ActionResult<User>> Post([FromBody] User user)
         {
             bool p = _iPasswordService.IsPasswordStrong(user.UserPassword);
             if (!p)
                 return BadRequest("Password is not strong enough.");
-            var newUser = _iUserService.AddUser(user);
+            var newUser = await _iUserService.AddUserasync(user);
             return CreatedAtAction(nameof(Get), new { id = newUser.UserId }, newUser);
         }
 
         [HttpPost("login")]
-        public ActionResult<User> Login([FromBody] User loginUser)
+        async public Task<ActionResult<User>> Login([FromBody] User loginUser)
         {
-            var user = _iUserService.LoginUser(loginUser);
+            var user = await _iUserService.LoginUserasync(loginUser);
             if (user != null)
                 return Ok(user);
             return NotFound();
@@ -61,9 +61,9 @@ namespace WebAPIShop.Controllers
 
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] User myUser)
+        async public Task<IActionResult> Put(int id, [FromBody] User myUser)
         {
-            bool p = _iUserService.UpdateUser(id, myUser);
+            bool p = _iUserService.UpdateUserasync(id, myUser);
             if (!p)
                 return BadRequest("Password is not strong enough");
             return NoContent();
