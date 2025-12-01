@@ -7,10 +7,12 @@ namespace Service
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IPasswordService _passwordService;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IPasswordService passwordService)
         {
             _userRepository = userRepository;
+            _passwordService = passwordService;
         }
 
         public User GetUserById(int id)
@@ -20,7 +22,8 @@ namespace Service
 
         public User AddUser(User user)
         {
-
+            if (!_passwordService.IsPasswordStrong(user.UserPassword))
+                return null;
             return _userRepository.AddUser(user);
         }
 
@@ -31,13 +34,10 @@ namespace Service
 
         public bool UpdateUser(int id, User user)
         {
-            var result = Zxcvbn.Core.EvaluatePassword(user.UserPassword);
-            if (result.Score >= 2)
-            {
-                _userRepository.UpdateUser(id, user);
-                return true;
-            }
-            return false;
+            if (!_passwordService.IsPasswordStrong(user.UserPassword))
+                return false;
+            _userRepository.UpdateUser(id, user);
+            return true;
         }
 
     }

@@ -43,10 +43,9 @@ namespace WebAPIShop.Controllers
         [HttpPost]
         public ActionResult<User> Post([FromBody] User user)
         {
-            bool p = _iPasswordService.IsPasswordStrong(user.UserPassword);
-            if (!p)
-                return BadRequest("Password is not strong enough.");
             var newUser = _iUserService.AddUser(user);
+            if (newUser == null)
+                return BadRequest("Password is not strong enough.");
             return CreatedAtAction(nameof(Get), new { id = newUser.UserId }, newUser);
         }
 
