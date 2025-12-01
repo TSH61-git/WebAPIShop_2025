@@ -7,10 +7,12 @@ namespace Service
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
+        private readonly IPasswordService _passwordService;
 
-        public UserService(IUserRepository userRepository)
+        public UserService(IUserRepository userRepository, IPasswordService passwordService)
         {
             _userRepository = userRepository;
+            _passwordService = passwordService;
         }
 
         public Task<User> GetUserByIdasync(int id)
@@ -21,7 +23,7 @@ namespace Service
         public Task<User> AddUserasync(User user)
         {
 
-            return _userRepository.AddUserasync(user);
+            return _userRepository.AddUser(user);
         }
 
         async public Task<User> LoginUserasync(User loginUser)
@@ -31,13 +33,10 @@ namespace Service
 
         public bool UpdateUserasync(int id, User user)
         {
-            var result = Zxcvbn.Core.EvaluatePassword(user.UserPassword);
-            if (result.Score >= 2)
-            {
-                _userRepository.UpdateUserasync(id, user);
-                return true;
-            }
-            return false;
+            if (!_passwordService.IsPasswordStrong(user.UserPassword))
+                return false;
+            _userRepository.UpdateUser(id, user);
+            return true;
         }
 
     }
