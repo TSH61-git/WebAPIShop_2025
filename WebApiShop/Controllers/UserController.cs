@@ -43,7 +43,7 @@ namespace WebAPIShop.Controllers
         [HttpPost]
         async public Task<ActionResult<User>> Post([FromBody] User user)
         {
-            var newUser = _iUserService.AddUser(user);
+            var newUser = await _iUserService.AddUserasync(user);
             if (newUser == null)
                 return BadRequest("Password is not strong enough.");
             return CreatedAtAction(nameof(Get), new { id = newUser.UserId }, newUser);

@@ -23,7 +23,7 @@ namespace Service
         public Task<User> AddUserasync(User user)
         {
 
-            return _userRepository.AddUser(user);
+            return _userRepository.AddUserasync(user);
         }
 
         async public Task<User> LoginUserasync(User loginUser)
@@ -35,7 +35,7 @@ namespace Service
         {
             if (!_passwordService.IsPasswordStrong(user.UserPassword))
                 return false;
-            _userRepository.UpdateUser(id, user);
+            _userRepository.UpdateUserasync(id, user);
             return true;
         }
 
