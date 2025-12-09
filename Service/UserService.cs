@@ -15,27 +15,27 @@ namespace Service
             _passwordService = passwordService;
         }
 
-        public Task<User> GetUserByIdasync(int id)
+        public async Task<User> GetUserById(int id)
         {
-            return _userRepository.GetUserByIdasync(id);
+            return await _userRepository.GetUserById(id);
         }
 
-        public Task<User> AddUserasync(User user)
+        public async Task<User> AddUser(User user)
         {
 
-            return _userRepository.AddUserasync(user);
+            return await _userRepository.AddUser(user);
         }
 
-        async public Task<User> LoginUserasync(User loginUser)
+        async public Task<User> LoginUser(User loginUser)
         {
-            return await _userRepository.LoginUserasync(loginUser);
+            return await _userRepository.LoginUser(loginUser);
         }
 
-        public bool UpdateUserasync(int id, User user)
+        public async Task<bool> UpdateUser(int id, User user)
         {
             if (!_passwordService.IsPasswordStrong(user.UserPassword))
                 return false;
-            _userRepository.UpdateUserasync(id, user);
+            await _userRepository.UpdateUser(id, user);
             return true;
         }
 

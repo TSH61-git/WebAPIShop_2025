@@ -13,13 +13,13 @@ namespace WebAPIShop.Controllers
     [ApiController]
     public class UserController : ControllerBase, IUserController
     {
-        IUserService _iUserService;
-        IPasswordService _iPasswordService;
+        private readonly IUserService _userService;
+        private readonly IPasswordService _passwordService;
 
         public UserController(IUserService userService, IPasswordService passwordService)
         {
-            _iUserService = userService;
-            _iPasswordService = passwordService;
+            _userService = userService;
+            _passwordService = passwordService;
         }
 
         // GET: api/<UsersController>
@@ -33,7 +33,7 @@ namespace WebAPIShop.Controllers
         [HttpGet("{id}")]
         async public Task<ActionResult<User>> Get(int id)
         {
-            var user = await _iUserService.GetUserByIdasync(id);
+            var user = await _userService.GetUserById(id);
             if (user == null)
                 return NotFound();
             return Ok(user);
@@ -43,7 +43,7 @@ namespace WebAPIShop.Controllers
         [HttpPost]
         async public Task<ActionResult<User>> Post([FromBody] User user)
         {
-            var newUser = await _iUserService.AddUserasync(user);
+            var newUser = await _userService.AddUser(user);
             if (newUser == null)
                 return BadRequest("Password is not strong enough.");
             return CreatedAtAction(nameof(Get), new { id = newUser.UserId }, newUser);
@@ -52,17 +52,17 @@ namespace WebAPIShop.Controllers
         [HttpPost("login")]
         async public Task<ActionResult<User>> Login([FromBody] User loginUser)
         {
-            var user = await _iUserService.LoginUserasync(loginUser);
+            var user = await _userService.LoginUser(loginUser);
             if (user != null)
                 return Ok(user);
-            return NotFound();
+            return Unauthorized();
         }
 
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
         async public Task<IActionResult> Put(int id, [FromBody] User myUser)
         {
-            bool p = _iUserService.UpdateUserasync(id, myUser);
+            bool p = await _userService.UpdateUser(id, myUser);
             if (!p)
                 return BadRequest("Password is not strong enough");
             return NoContent();
