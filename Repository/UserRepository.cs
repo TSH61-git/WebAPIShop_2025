@@ -6,42 +6,42 @@ namespace Repository
     public class UserRepository : IUserRepository
     {
 
-        MyWebApiShopContext _context;
+        private readonly MyWebApiShopContext _context;
         public UserRepository(MyWebApiShopContext context)
         {
             _context = context;
         }
 
-        async public Task<User> GetUserByIdasync(int id)
+        async public Task<User> GetUserById(int id)
         {
-            User? user = _context.Users.Find(id);
+            User? user = await _context.Users.FindAsync(id);
             return user;
         }
 
-        async public Task<User> AddUserasync(User user)
+        async public Task<User> AddUser(User user)
         {
-            _context.Users.Add(user);
-            _context.SaveChanges();
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
             return user;
         }
 
-        async public Task<User> LoginUserasync(User loginUser)
+        async public Task<User> LoginUser(User loginUser)
         {
-            User? user = _context.Users
-                .FirstOrDefault(u => u.UserEmail == loginUser.UserEmail && u.UserPassword == loginUser.UserPassword);
+            User? user = await _context.Users
+                .FirstOrDefaultAsync(u => u.UserEmail == loginUser.UserEmail && u.UserPassword == loginUser.UserPassword);
             return user;
         }
 
-        async public Task UpdateUserasync(int id, User myUser)
+        async public Task UpdateUser(int id, User myUser)
         {
-            User user1 = _context.Users.Find(id);
+            User user1 = await _context.Users.FindAsync(id);
             if (user1 != null)
             {
                 user1.UserEmail = myUser.UserEmail;
                 user1.UserFirstName = myUser.UserFirstName;
                 user1.UserLastName = myUser.UserLastName;
                 user1.UserPassword = myUser.UserPassword;
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
         }
 
