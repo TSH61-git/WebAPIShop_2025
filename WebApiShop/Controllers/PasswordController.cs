@@ -18,9 +18,9 @@ namespace WebApiShop.Controllers
         }
 
         [HttpPost]
-        public IActionResult CheckPassword([FromBody] Passwords password)
+        public IActionResult CheckPassword([FromBody] Password password)
         {
-            Passwords resPassword = _iPasswordService.CheckPasswordStrong(password);
+            Password resPassword = _iPasswordService.CheckPasswordStrong(password);
             if (resPassword == null)
                 return NoContent();
             return Ok(resPassword);

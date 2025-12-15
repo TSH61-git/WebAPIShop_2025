@@ -26,7 +26,7 @@ namespace WebAPIShop.Controllers
         [HttpGet]
         async public Task<IEnumerable<string>> Get()
         {
-            return new string[] { "can't show users list:(" };
+            return new string[] { "" };
         }
 
         // GET api/<UsersController>/5

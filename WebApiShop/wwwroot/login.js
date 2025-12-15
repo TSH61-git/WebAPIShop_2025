@@ -7,11 +7,11 @@ const passwordForUpdate = document.querySelector("#password");
 const register = async () => {
 
     const newUser = {
-        userId: 0,
-        UserEmail: emailForUpdate.value,
-        UserFirstName: firstNameForUpdate.value,
-        UserLastName: lastNameForUpdate.value,
-        UserPassword: passwordForUpdate.value
+        Id: 0,
+        Email: emailForUpdate.value,
+        FirstName: firstNameForUpdate.value,
+        LastName: lastNameForUpdate.value,
+        Password: passwordForUpdate.value
     }
 
     try {
@@ -42,10 +42,10 @@ const loginUserPassword = document.querySelector("#loginUserPassword");
 
 const login = async () => {
     const loginUser = {
-        UserEmail: loginUserEmail.value,
-        UserFirstName: '',
-        UserLastName: '',
-        UserPassword: loginUserPassword.value,
+        Email: loginUserEmail.value,
+        FirstName: '',
+        LastName: '',
+        Password: loginUserPassword.value,
     }
 
     try {
@@ -73,7 +73,7 @@ const login = async () => {
 const checkStrength = async () => {
     const password = passwordForUpdate.value;
     const passwordObj = {
-        password: password,
+        Pass: password,
         Strength: 0
     };
     try {

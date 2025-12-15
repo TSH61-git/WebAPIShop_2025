@@ -7,27 +7,27 @@ if (!currentUser) {
     window.location.href = "Home.html";
 }
 
-welcomeText.textContent = "Hello To " + currentUser.userFirstName;
+welcomeText.textContent = "Hello To " + currentUser.firstName;
 
 const emailForUpdate = document.querySelector("#userName");
 const firstNameForUpdate = document.querySelector("#firstName");
 const lastNameForUpdate = document.querySelector("#lastName");
 const passwordForUpdate = document.querySelector("#password");
 
-emailForUpdate.value = currentUser.userEmail;
-firstNameForUpdate.value = currentUser.userFirstName;
-lastNameForUpdate.value = currentUser.userLastName;
-passwordForUpdate.value = currentUser.userPassword;
+emailForUpdate.value = currentUser.email;
+firstNameForUpdate.value = currentUser.firstName;
+lastNameForUpdate.value = currentUser.lastName;
+passwordForUpdate.value = currentUser.password;
 
 
 const update = async () => {
 
     const updateUser = {
-        UserId: currentUser.UserId,
-        UserEmail: emailForUpdate.value,
-        UserFirstName: firstNameForUpdate.value,
-        UserLastName: lastNameForUpdate.value,
-        UserPassword: passwordForUpdate.value
+        Id: currentUser.UserId,
+        Email: emailForUpdate.value,
+        FirstName: firstNameForUpdate.value,
+        LastName: lastNameForUpdate.value,
+        Password: passwordForUpdate.value
     }
 
     try {

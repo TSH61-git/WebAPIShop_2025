@@ -1,5 +1,6 @@
 ﻿using Entities;
 using Repository;
+using Repository.Models;
 using Zxcvbn;
 
 namespace Service
@@ -33,7 +34,7 @@ namespace Service
 
         public async Task<bool> UpdateUser(int id, User user)
         {
-            if (!_passwordService.IsPasswordStrong(user.UserPassword))
+            if (!_passwordService.IsPasswordStrong(user.Password))
                 return false;
             await _userRepository.UpdateUser(id, user);
             return true;

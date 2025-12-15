@@ -1,6 +1,9 @@
-﻿using Entities;
+﻿//using Entities;
+using Entities;
+using Microsoft.EntityFrameworkCore;
 using Repository.Models;
 using System.Text.Json;
+
 namespace Repository
 {
     public class UserRepository : IUserRepository
@@ -28,7 +31,7 @@ namespace Repository
         async public Task<User> LoginUser(User loginUser)
         {
             User? user = await _context.Users
-                .FirstOrDefaultAsync(u => u.UserEmail == loginUser.UserEmail && u.UserPassword == loginUser.UserPassword);
+                .FirstOrDefaultAsync(u => u.Email == loginUser.Email && u.Password == loginUser.Password);
             return user;
         }
 
@@ -37,10 +40,10 @@ namespace Repository
             User user1 = await _context.Users.FindAsync(id);
             if (user1 != null)
             {
-                user1.UserEmail = myUser.UserEmail;
-                user1.UserFirstName = myUser.UserFirstName;
-                user1.UserLastName = myUser.UserLastName;
-                user1.UserPassword = myUser.UserPassword;
+                user1.Email = myUser.Email;
+                user1.FirstName = myUser.FirstName;
+                user1.LastName = myUser.LastName;
+                user1.Password = myUser.Password;
                 await _context.SaveChangesAsync();
             }
         }

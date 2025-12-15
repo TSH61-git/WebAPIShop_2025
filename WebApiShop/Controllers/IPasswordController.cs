@@ -5,6 +5,6 @@ namespace WebApiShop.Controllers
 {
     public interface IPasswordController
     {
-        IActionResult CheckPassword([FromBody] Passwords password);
+        IActionResult CheckPassword([FromBody] Password password);
     }
 }

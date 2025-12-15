@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Repository.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPIShop.Controllers
