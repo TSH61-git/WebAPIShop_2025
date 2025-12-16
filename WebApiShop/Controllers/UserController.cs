@@ -1,7 +1,6 @@
 ﻿using Entities;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.Documents;
 using Service;
 using User = Entities.User;
 

@@ -9,7 +9,7 @@ namespace WebApiShop.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class OrderController : ControllerBase
+    public class OrderController : ControllerBase, IOrderController
     {
 
         private readonly IOrderService _orderService;
@@ -40,7 +40,7 @@ namespace WebApiShop.Controllers
             var newOrder = await _orderService.addOrder(order);
             if (newOrder == null)
                 return NotFound();
-            
+
             return CreatedAtAction(nameof(Get), new { id = newOrder.OrderId }, newOrder);
 
         }
