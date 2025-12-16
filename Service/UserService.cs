@@ -1,4 +1,6 @@
-﻿using Entities;
+﻿using AutoMapper;
+using DTOs;
+using Entities;
 using Repository;
 using Repository.Models;
 using Zxcvbn;
@@ -9,33 +11,41 @@ namespace Service
     {
         private readonly IUserRepository _userRepository;
         private readonly IPasswordService _passwordService;
+        private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository, IPasswordService passwordService)
+
+        public UserService(IUserRepository userRepository, IPasswordService passwordService, IMapper mapper)
         {
             _userRepository = userRepository;
             _passwordService = passwordService;
+            _mapper = mapper;
         }
 
-        public async Task<User> GetUserById(int id)
+        public async Task<UserReadDTO> GetUserById(int id)
         {
-            return await _userRepository.GetUserById(id);
+            var user = await _userRepository.GetUserById(id);
+            return _mapper.Map<UserReadDTO>(user);
         }
 
-        public async Task<User> AddUser(User user)
+        public async Task<UserReadDTO> AddUser(UserRegisterDTO userRegisterDto)
         {
-
-            return await _userRepository.AddUser(user);
+            User user = _mapper.Map<User>(userRegisterDto);
+            User newUser = await _userRepository.AddUser(user);
+            return _mapper.Map<UserReadDTO>(newUser);
         }
 
-        async public Task<User> LoginUser(User loginUser)
+        public async Task<UserReadDTO> LoginUser(UserLoginDTO userLoginDto)
         {
-            return await _userRepository.LoginUser(loginUser);
+            User userCredentials = _mapper.Map<User>(userLoginDto);
+            User user = await _userRepository.LoginUser(userCredentials);
+            return _mapper.Map<UserReadDTO>(user);
         }
 
-        public async Task<bool> UpdateUser(int id, User user)
+        public async Task<bool> UpdateUser(int id, UserRegisterDTO userUpdateDto)
         {
-            if (!_passwordService.IsPasswordStrong(user.Password))
+            if (!_passwordService.IsPasswordStrong(userUpdateDto.Password))
                 return false;
+            User user = _mapper.Map<User>(userUpdateDto);
             await _userRepository.UpdateUser(id, user);
             return true;
         }

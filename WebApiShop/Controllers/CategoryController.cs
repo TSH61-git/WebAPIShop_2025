@@ -1,4 +1,5 @@
-﻿using Entities;
+﻿using DTOs;
+using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Service;
 
@@ -19,7 +20,7 @@ namespace WebApiShop.Controllers
 
         // GET: api/<CategoryController>
         [HttpGet]
-        async public Task<ActionResult<IEnumerable<List<Category>>>> Get()
+        async public Task<ActionResult<IEnumerable<List<CategoryDTO>>>> Get()
         {
             var categories = await _categoryService.GetCategories();
             if (categories == null)

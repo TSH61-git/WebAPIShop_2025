@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36301.6
+# Visual Studio Version 18
+VisualStudioVersion = 18.1.11304.174 d18.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApiShop", "WebApiShop\WebApiShop.csproj", "{C842A70E-BF98-4CEA-97AC-F48650C3C9FB}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.csproj", "{0244AC06-B690-407E-AE96-06190D4DEAC1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entity\Entities.csproj", "{2EC8ED70-520C-4889-BFEE-433C55A5DF3C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DTOs", "DTOs\DTOs.csproj", "{7A6B593A-0AB7-41E5-BD55-4E8E776C9044}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{2EC8ED70-520C-4889-BFEE-433C55A5DF3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2EC8ED70-520C-4889-BFEE-433C55A5DF3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2EC8ED70-520C-4889-BFEE-433C55A5DF3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A6B593A-0AB7-41E5-BD55-4E8E776C9044}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A6B593A-0AB7-41E5-BD55-4E8E776C9044}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A6B593A-0AB7-41E5-BD55-4E8E776C9044}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A6B593A-0AB7-41E5-BD55-4E8E776C9044}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

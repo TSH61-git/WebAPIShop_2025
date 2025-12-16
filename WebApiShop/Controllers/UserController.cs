@@ -1,4 +1,5 @@
-﻿using Entities;
+﻿using DTOs;
+using Entities;
 using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Mvc;
 using Service;
@@ -30,7 +31,7 @@ namespace WebAPIShop.Controllers
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        async public Task<ActionResult<User>> Get(int id)
+        public async Task<ActionResult<UserReadDTO>> Get(int id)
         {
             var user = await _userService.GetUserById(id);
             if (user == null)
@@ -40,18 +41,19 @@ namespace WebAPIShop.Controllers
 
         // POST api/<UsersController>
         [HttpPost]
-        async public Task<ActionResult<User>> Post([FromBody] User user)
+        public async Task<ActionResult<UserReadDTO>> Post([FromBody] UserRegisterDTO userRegisterDto)
         {
-            var newUser = await _userService.AddUser(user);
+            var newUser = await _userService.AddUser(userRegisterDto);
             if (newUser == null)
-                return BadRequest("Password is not strong enough.");
+                return BadRequest("Registration failed or password is not strong enough.");
+
             return CreatedAtAction(nameof(Get), new { id = newUser.UserId }, newUser);
         }
 
         [HttpPost("login")]
-        async public Task<ActionResult<User>> Login([FromBody] User loginUser)
+        public async Task<ActionResult<UserReadDTO>> Login([FromBody] UserLoginDTO loginDto)
         {
-            var user = await _userService.LoginUser(loginUser);
+            var user = await _userService.LoginUser(loginDto);
             if (user != null)
                 return Ok(user);
             return Unauthorized();
@@ -59,11 +61,11 @@ namespace WebAPIShop.Controllers
 
         // PUT api/<UsersController>/5
         [HttpPut("{id}")]
-        async public Task<IActionResult> Put(int id, [FromBody] User myUser)
+        public async Task<IActionResult> Put(int id, [FromBody] UserRegisterDTO userUpdateDto)
         {
-            bool p = await _userService.UpdateUser(id, myUser);
-            if (!p)
-                return BadRequest("Password is not strong enough");
+            bool isUpdated = await _userService.UpdateUser(id, userUpdateDto);
+            if (!isUpdated)
+                return BadRequest("Update failed. Please check password strength.");
             return NoContent();
         }
 

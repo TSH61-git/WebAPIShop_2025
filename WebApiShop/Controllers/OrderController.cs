@@ -1,4 +1,5 @@
-﻿using Entities;
+﻿using DTOs;
+using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration.UserSecrets;
 using Service;
@@ -35,14 +36,13 @@ namespace WebApiShop.Controllers
 
         // POST api/<OrderController>
         [HttpPost]
-        async public Task<ActionResult<Order>> Post([FromBody] Order order)
+        async public Task<ActionResult<OrderReadDTO>> Post([FromBody] OrderCreateDTO order)
         {
+            // הקריאה ל-Service שמחזיר OrderReadDTO
             var newOrder = await _orderService.addOrder(order);
             if (newOrder == null)
-                return NotFound();
-
+                return BadRequest(); 
             return CreatedAtAction(nameof(Get), new { id = newOrder.OrderId }, newOrder);
-
         }
 
         // PUT api/<OrderController>/5

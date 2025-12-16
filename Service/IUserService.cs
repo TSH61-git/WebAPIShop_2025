@@ -1,13 +1,15 @@
-﻿using Entities;
+﻿using DTOs;
+using Entities;
 using Repository.Models;
 
 namespace Service
 {
     public interface IUserService
     {
-        Task<User> AddUser(User user);
-        Task<User> GetUserById(int id);
-        Task<User> LoginUser(User loginUser);
-        Task<bool> UpdateUser(int id, User user);
+        Task<UserReadDTO> GetUserById(int id);
+
+        Task<UserReadDTO> AddUser(UserRegisterDTO userRegisterDto);
+        Task<UserReadDTO> LoginUser(UserLoginDTO userLoginDto);
+        Task<bool> UpdateUser(int id, UserRegisterDTO userUpdateDto);
     }
 }

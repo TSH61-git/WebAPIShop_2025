@@ -1,6 +1,7 @@
-﻿using Entities;
-using Repository.Models;
+﻿using DTOs;
+using Entities;
 using Microsoft.AspNetCore.Mvc;
+using Repository.Models;
 
 namespace WebAPIShop.Controllers
 {
@@ -8,9 +9,9 @@ namespace WebAPIShop.Controllers
     {
         void Delete(int id);
         Task<IEnumerable<string>> Get();
-        Task<ActionResult<User>> Get(int id);
-        Task<ActionResult<User>> Login([FromBody] User loginUser);
-        Task<ActionResult<User>> Post([FromBody] User user);
-        Task<IActionResult> Put(int id, [FromBody] User myUser);
+        Task<ActionResult<UserReadDTO>> Get(int id);
+        Task<ActionResult<UserReadDTO>> Login([FromBody] UserLoginDTO loginDto);
+        Task<ActionResult<UserReadDTO>> Post([FromBody] UserRegisterDTO userRegisterDto); Task<IActionResult> Put(int id, [FromBody] UserRegisterDTO userUpdateDto);
     }
+
 }
