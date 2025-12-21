@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Repository;
 using Service;
+using NLog.Web;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,8 +38,11 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 builder.Services.AddOpenApi();
 
+builder.Host.UseNLog();
+
 var app = builder.Build();
 
+app.Logger.LogInformation("App started at {Time} in {Env} mode", DateTime.Now, app.Environment.EnvironmentName);
 // Configure the HTTP request pipeline.
 
 if (app.Environment.IsDevelopment())
@@ -49,6 +53,7 @@ if (app.Environment.IsDevelopment())
         options.SwaggerEndpoint("/openapi/v1.json", "My API V1");
     });
 }
+
 
 app.UseHttpsRedirection();
 

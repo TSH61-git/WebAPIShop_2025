@@ -15,11 +15,13 @@ namespace WebAPIShop.Controllers
     {
         private readonly IUserService _userService;
         private readonly IPasswordService _passwordService;
+        private readonly ILogger<UserController> _logger;
 
-        public UserController(IUserService userService, IPasswordService passwordService)
+        public UserController(IUserService userService, IPasswordService passwordService, ILogger<UserController> logger)
         {
             _userService = userService;
             _passwordService = passwordService;
+            _logger = logger;
         }
 
         // GET: api/<UsersController>
@@ -44,9 +46,10 @@ namespace WebAPIShop.Controllers
         public async Task<ActionResult<UserReadDTO>> Post([FromBody] UserRegisterDTO userRegisterDto)
         {
             var newUser = await _userService.AddUser(userRegisterDto);
+            _logger.LogInformation("New user registration: Name: {FullName}, Email: {Email}",
+                userRegisterDto.FirstName+ " " + userRegisterDto.LastName, userRegisterDto.Email);
             if (newUser == null)
                 return BadRequest("Registration failed or password is not strong enough.");
-
             return CreatedAtAction(nameof(Get), new { id = newUser.UserId }, newUser);
         }
 
@@ -54,6 +57,8 @@ namespace WebAPIShop.Controllers
         public async Task<ActionResult<UserReadDTO>> Login([FromBody] UserLoginDTO loginDto)
         {
             var user = await _userService.LoginUser(loginDto);
+            _logger.LogInformation("User registered successfully: Name: {FullName}, Email: {Email}", $"{user.FirstName} {user.LastName}", user.Email);
+
             if (user != null)
                 return Ok(user);
             return Unauthorized();
