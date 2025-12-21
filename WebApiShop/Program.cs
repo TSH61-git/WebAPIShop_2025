@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Entities;
+using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Repository;
@@ -30,7 +31,7 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 builder.Services.AddDbContext<Repository.Models.MyWebApiShopContext>
-    (option=> option.UseSqlServer("Data Source=localhost\\SQLEXPRESS;Initial Catalog=MyWebApiShop;Integrated Security=True; TrustServerCertificate=True"));
+    (option=> option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
