@@ -6,12 +6,5 @@ using System.Threading.Tasks;
 
 namespace DTOs
 {
-    public record ProductShortDTO
-    {
-        public int ProductId { get; set; }
-
-        public string ProductName { get; set; }
-
-        public decimal Price { get; set; }
-    }
+    
 }

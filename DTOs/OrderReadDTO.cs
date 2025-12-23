@@ -6,16 +6,5 @@ using System.Threading.Tasks;
 
 namespace DTOs
 {
-    public record OrderReadDTO
-    {
-        public int OrderId { get; set; }
-
-        public DateOnly OrderDate { get; set; }
-
-        public decimal? OrderSum { get; set; }
-
-        public int UserId { get; set; }
-
-        public List<OrderItemDTO> OrderItems { get; set; } = new List<OrderItemDTO>();
-    }
+    
 }
