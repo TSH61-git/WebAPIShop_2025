@@ -1,9 +1,6 @@
 ﻿using DTOs;
-using Entities;
-using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.AspNetCore.Mvc;
 using Service;
-using User = Entities.User;
 
 
 namespace WebAPIShop.Controllers

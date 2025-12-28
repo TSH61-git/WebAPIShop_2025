@@ -8,45 +8,45 @@ using System.Threading.Tasks;
 namespace DTOs
 {
     public record UserLoginDTO
-    {
+    (
         [Required, EmailAddress]
-        public string Email { get; set; }
+        string Email,
 
         [Required]
-        public string Password { get; set; }
+        string Password
 
-    }
+    );
 
 
     public record UserRegisterDTO
-    {
+    (
 
         [Required, EmailAddress]
-        public string Email { get; set; }
+        string Email,
 
         [Required]
-        public string FirstName { get; set; }
+        string FirstName,
 
         [Required]
-        public string LastName { get; set; }
+        string LastName,
 
         [Required]
-        public string Password { get; set; }
-    }
+        string Password
+    );
 
     public record UserReadDTO
-    {
-        public int UserId { get; set; }
+    (
+         int UserId,
 
         [Required, EmailAddress]
-        public string Email { get; set; }
+         string Email,
 
         [Required]
-        public string FirstName { get; set; }
+         string FirstName,
 
         [Required]
-        public string LastName { get; set; }
-    }
+         string LastName
+    );
 
 
 }

@@ -8,25 +8,25 @@ using System.Threading.Tasks;
 namespace DTOs
 {
     public record ProductDTO
-    {
-        public int ProductId { get; set; }
+    (
+        int ProductId,
 
-        public string ProductName { get; set; }
+        string ProductName,
 
-        public decimal Price { get; set; }
+        decimal Price,
 
-        public string CategoryName { get; set; }
+        string CategoryName,
 
-        public string Description { get; set; }
+        string Description
 
-    }
+    );
 
     public record ProductShortDTO
-    {
-        public int ProductId { get; set; }
+    (
+        int ProductId,
 
-        public string ProductName { get; set; }
+        string ProductName,
 
-        public decimal Price { get; set; }
-    }
+        decimal Price
+    );
 }

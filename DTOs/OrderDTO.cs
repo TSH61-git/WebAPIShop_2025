@@ -7,22 +7,23 @@ using System.Threading.Tasks;
 namespace DTOs
 {
     public record OrderCreateDTO
-    {
-        public int UserId { get; set; }
+    (
+        int UserId,
 
-        public List<OrderItemDTO> OrderItems { get; set; } = new List<OrderItemDTO>();
-    }
+        List<OrderItemDTO> OrderItems
+    );
+    
 
     public record OrderReadDTO
-    {
-        public int OrderId { get; set; }
+    
+        (int OrderId,
 
-        public DateOnly OrderDate { get; set; }
+        DateOnly OrderDate,
 
-        public decimal? OrderSum { get; set; }
+        decimal? OrderSum,
 
-        public int UserId { get; set; }
+        int UserId,
 
-        public List<OrderItemDTO> OrderItems { get; set; } = new List<OrderItemDTO>();
-    }
+        List<OrderItemDTO> OrderItems);
+
 }
