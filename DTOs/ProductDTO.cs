@@ -15,7 +15,7 @@ namespace DTOs
 
         decimal Price,
 
-        string CategoryName,
+        int CategoryId,
 
         string Description
 

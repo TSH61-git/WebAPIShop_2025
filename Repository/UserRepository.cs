@@ -17,7 +17,7 @@ namespace Repository
 
         async public Task<User> GetUserById(int id)
         {
-            User? user = await _context.Users.FindAsync(id);
+            User? user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
             return user;
         }
 
@@ -37,7 +37,7 @@ namespace Repository
 
         async public Task UpdateUser(int id, User myUser)
         {
-            User user1 = await _context.Users.FindAsync(id);
+            User user1 = await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
             if (user1 != null)
             {
                 user1.Email = myUser.Email;

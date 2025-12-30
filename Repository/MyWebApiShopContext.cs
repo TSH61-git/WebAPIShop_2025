@@ -9,6 +9,7 @@ namespace Repository.Models;
 
 public partial class MyWebApiShopContext : DbContext
 {
+    public MyWebApiShopContext() { }
     public MyWebApiShopContext(DbContextOptions<MyWebApiShopContext> options)
         : base(options)
     {

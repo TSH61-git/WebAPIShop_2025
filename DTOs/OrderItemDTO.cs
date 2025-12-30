@@ -12,8 +12,5 @@ namespace DTOs
 
         int OrderId,
 
-        int Quantity,
-
-        string CategoryName
-    );
+        int Quantity        );
 }

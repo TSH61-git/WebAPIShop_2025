@@ -24,6 +24,8 @@ namespace Service
         public async Task<OrderReadDTO> addOrder(OrderCreateDTO orderDto)
         {
             Order order = _mapper.Map<Order>(orderDto);
+            order.OrderDate = DateOnly.FromDateTime(DateTime.Now);
+            //order.OrderSum = ?;
             Order newOrder = await _orderRepository.AddOrder(order);
             return _mapper.Map<OrderReadDTO>(newOrder);
         }
