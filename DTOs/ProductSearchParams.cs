@@ -9,11 +9,11 @@ namespace DTOs
 {
     public class ProductSearchParams
     {
-        public string Desc { get; set; }
+        public string? Desc { get; set; }
         public decimal? MinPrice { get; set; }
         public decimal? MaxPrice { get; set; }
-        public List<int> CategoryIDs { get; set; }
-        public string OrderBy { get; set; }
+        public List<int>? CategoryIDs { get; set; }
+        public string? OrderBy { get; set; }
 
     }
 }
