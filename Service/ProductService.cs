@@ -23,10 +23,20 @@ namespace Service
             _mapper = mapper;
         }
 
-        public async Task<List<ProductDTO>> GetProducts()
+        public async Task<PageResponseDTO<ProductDTO>> GetProducts(int position, int skip, ProductSearchParams parameters)
         {
-            var Products = await _productRepository.GetProducts();
-            return _mapper.Map<List<ProductDTO>>(Products);
+            (List<Product>, int) response = await _productRepository.GetProducts(position, skip, parameters);
+            
+            PageResponseDTO<ProductDTO> pResponse = new();
+            List<ProductDTO> products = _mapper.Map<List<ProductDTO>>(response.Item1);
+            pResponse.Data = products;
+            pResponse.TotalItems = response.Item2;
+            pResponse.CurrentPage = position;
+            pResponse.SizeOfPage = skip;
+            pResponse.HasPreviousPage = position > 1;
+            int numOfPages = (pResponse.TotalItems + pResponse.SizeOfPage - 1) / pResponse.SizeOfPage;
+            pResponse.HasNextPage = position < numOfPages;
+            return pResponse;
         }
     }
 }

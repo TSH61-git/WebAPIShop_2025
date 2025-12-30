@@ -1,4 +1,5 @@
 ﻿using Entities;
+using DTOs;
 using Microsoft.EntityFrameworkCore;
 using Repository;
 using Repository.Models;
@@ -29,7 +30,7 @@ public class ProductRepositoryIntegrationTests : IClassFixture<DatabaseFixture>
         await _context.SaveChangesAsync();
 
         // Act
-        var result = await _repository.GetProducts();
+        var result = await _repository.GetProducts(new ProductSearchParams { });
 
         // Assert
         Assert.Equal(2, result.Count);
@@ -41,7 +42,7 @@ public class ProductRepositoryIntegrationTests : IClassFixture<DatabaseFixture>
     public async Task GetProducts_NoProducts_ReturnsEmptyList()
     {
         // Act
-        var result = await _repository.GetProducts();
+        var result = await _repository.GetProducts(new ProductSearchParams { });
 
         // Assert
         Assert.Empty(result);

@@ -20,12 +20,12 @@ namespace WebApiShop.Controllers
 
         // GET: api/<ValuesController>
         [HttpGet]
-        async public Task<ActionResult<IEnumerable<List<ProductDTO>>>> Get()
+        async public Task<ActionResult<PageResponseDTO<ProductDTO>>> Get(int position, int skip, [FromQuery] ProductSearchParams parameters)
         {
-            var products = await _productService.GetProducts();
-            if (products == null)
-                return NotFound();
-            return Ok(products);
+            PageResponseDTO<ProductDTO> pageResponse = await _productService.GetProducts(position, skip, parameters);
+            if (pageResponse.Data.Count() > 0)
+                return Ok(pageResponse);
+            return NotFound();
         }
 
         // GET api/<ValuesController>/5

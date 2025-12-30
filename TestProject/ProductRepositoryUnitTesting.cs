@@ -1,4 +1,5 @@
-﻿using Entities;
+﻿using DTOs;
+using Entities;
 using Moq;
 using Moq.EntityFrameworkCore;
 using Repository;
@@ -24,7 +25,7 @@ namespace TestProject
             var repository = new ProductRepository(mockContext.Object);
 
             // Act
-            var result = await repository.GetProducts();
+            var result = await repository.GetProducts(new ProductSearchParams { });
 
             // Assert
             Assert.Equal(2, result.Count);
@@ -43,7 +44,7 @@ namespace TestProject
             var repository = new ProductRepository(mockContext.Object);
 
             // Act
-            var result = await repository.GetProducts();
+            var result = await repository.GetProducts(new ProductSearchParams { });
 
             // Assert
             Assert.Empty(result);

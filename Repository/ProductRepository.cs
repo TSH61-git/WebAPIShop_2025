@@ -1,7 +1,9 @@
 ﻿using Entities;
+using DTOs;
 using Microsoft.EntityFrameworkCore;
 using Repository.Models;
 using System.Text.Json;
+using System.Linq;
 
 namespace Repository
 {
@@ -14,9 +16,20 @@ namespace Repository
             _context = context;
         }
 
-        async public Task<List<Product>> GetProducts()
+    public async Task<(List<Product> Items, int TotalCount)> GetProducts(int position, int skip, ProductSearchParams parameters)
         {
-            return await _context.Products.ToListAsync();
+
+            var query = _context.Products.Where(product =>
+            (parameters.Desc == null) ? (true) : (product.Description.Contains(parameters.Desc))
+            && ((parameters.MinPrice == null) ? (true) : (product.Price >= parameters.MinPrice))
+            && ((parameters.MaxPrice == null) ? (true) : (product.Price <= parameters.MaxPrice))
+            && ((parameters.CategoryIDs.Count == 0) ? (true) : parameters.CategoryIDs.Contains((int)product.CategoryId)))
+            .OrderBy(product => parameters.OrderBy);
+
+            List<Product> products = await query.Skip((position - 1) * skip)
+            .Take(skip).Include(product => product.Category).ToListAsync();
+            var total = await query.CountAsync();
+            return (products, total);
         }
 
     }

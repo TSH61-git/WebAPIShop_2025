@@ -5,6 +5,6 @@ namespace Service
 {
     public interface IProductService
     {
-        Task<List<ProductDTO>> GetProducts();
+        Task<PageResponseDTO<ProductDTO>> GetProducts(int position, int skip, ProductSearchParams parameters);
     }
 }

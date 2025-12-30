@@ -2,9 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Repository;
 using Repository.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Xunit;
 
 namespace TestProject
 {
