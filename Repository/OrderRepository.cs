@@ -17,11 +17,14 @@ namespace Repository
             _context = context;
         }
 
-        async public Task<Order> AddOrder(Order oredr)
+        async public Task<Order> AddOrder(Order order)
         {
-            await _context.Orders.AddAsync(oredr);
+            if (order.OrderItems == null || !order.OrderItems.Any())
+                throw new InvalidOperationException("Order must have at least one item.");
+
+            await _context.Orders.AddAsync(order);
             await _context.SaveChangesAsync();
-            return oredr;
+            return order;
         }
     }
 }

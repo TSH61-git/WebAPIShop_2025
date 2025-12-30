@@ -20,7 +20,7 @@ namespace TestProject
             // Set up the test database connection and initialize the context
             var options = new DbContextOptionsBuilder<MyWebApiShopContext>()
 
-                .UseSqlServer("Data Source=localhost\\SQLEXPRESS;Initial Catalog=MyWebApiShop;Integrated Security=True; TrustServerCertificate=True")
+                .UseSqlServer("Data Source=localhost\\SQLEXPRESS;Initial Catalog=Test;Integrated Security=True; TrustServerCertificate=True")
                 .Options;
             Context = new MyWebApiShopContext(options);
             Context.Database.EnsureCreated();

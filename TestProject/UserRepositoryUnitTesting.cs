@@ -21,7 +21,7 @@ namespace TestProject
             var repository = new UserRepository(mockContext.Object);
 
             // Act
-            var result = await repository.GetUserById(1);
+            var result = await repository.GetUserById(user.UserId);
 
             // Assert
             Assert.NotNull(result);

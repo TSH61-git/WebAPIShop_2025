@@ -4,4 +4,5 @@ This is my User Repository. Please generate comprehensive Unit Tests for it. For
 Attached is an example of a Unit Test on a function arranged according to Arrange, Act and Assert.
 Prepare for me the tests you prepared according to the above example.
 3.
-
+Prepare for me all the Integration Tests for the attached User Repository, including HOOK tests before and after, 
+so that all the things that must happen will happen even in an error situation
