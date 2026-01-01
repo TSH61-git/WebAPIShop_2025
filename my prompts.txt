@@ -6,3 +6,6 @@ Prepare for me the tests you prepared according to the above example.
 3.
 Prepare for me all the Integration Tests for the attached User Repository, including HOOK tests before and after, 
 so that all the things that must happen will happen even in an error situation
+4.
+Add good hooks to the attached test.
+So that they will ensure the integrity of the DB and other data even in the event of an error or failure of the tests

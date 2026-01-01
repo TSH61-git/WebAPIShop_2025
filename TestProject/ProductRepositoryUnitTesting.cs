@@ -25,12 +25,12 @@ namespace TestProject
             var repository = new ProductRepository(mockContext.Object);
 
             // Act
-            var result = await repository.GetProducts(new ProductSearchParams { });
+            var result = await repository.GetProducts(1, 10, new ProductSearchParams { });
 
             // Assert
-            Assert.Equal(2, result.Count);
-            Assert.Contains(result, p => p.ProductName == "Product 1");
-            Assert.Contains(result, p => p.ProductName == "Product 2");
+            Assert.Equal(2, result.Items.Count);
+            Assert.Contains(result.Items, p => p.ProductName == "Product 1");
+            Assert.Contains(result.Items, p => p.ProductName == "Product 2");
         }
 
         [Fact]
@@ -44,10 +44,10 @@ namespace TestProject
             var repository = new ProductRepository(mockContext.Object);
 
             // Act
-            var result = await repository.GetProducts(new ProductSearchParams { });
+            var result = await repository.GetProducts(1,10,new ProductSearchParams { });
 
             // Assert
-            Assert.Empty(result);
+            Assert.Empty(result.Items);
         }
     }
 }

@@ -1,19 +1,29 @@
 ﻿using Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Repository;
 using Repository.Models;
 
 namespace TestProject
 {
-    public class CategoryRepositoryIntegrationTests : IClassFixture<DatabaseFixture>
+    public class CategoryRepositoryIntegrationTests : IClassFixture<DatabaseFixture>, IDisposable
     {
         private readonly MyWebApiShopContext _context;
         private readonly CategoryRepository _repository;
+        private IDbContextTransaction _transaction;
 
-        public CategoryRepositoryIntegrationTests(DatabaseFixture databaseFixture)
+        public CategoryRepositoryIntegrationTests(DatabaseFixture fixture)
         {
-            _context = databaseFixture.Context;
+            _context = fixture.Context;
             _repository = new CategoryRepository(_context);
+
+            _transaction = _context.Database.BeginTransaction();
+        }
+
+        public void Dispose()
+        {
+            _transaction.Rollback();
+            _transaction.Dispose();
         }
 
         [Fact]

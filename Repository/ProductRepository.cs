@@ -2,8 +2,6 @@
 using DTOs;
 using Microsoft.EntityFrameworkCore;
 using Repository.Models;
-using System.Text.Json;
-using System.Linq;
 
 namespace Repository
 {
@@ -16,7 +14,7 @@ namespace Repository
             _context = context;
         }
 
-        public async Task<(List<Product> Items, int TotalCount)> GetProducts(int position, int skip, ProductSearchParams parameters)
+        public async Task<(List<Product> Items, int TotalCount)> GetProducts(int position, int skip, ProductSearchParams? parameters)
         {
 
             var query = _context.Products.Where(product =>

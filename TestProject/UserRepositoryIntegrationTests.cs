@@ -1,5 +1,6 @@
 ﻿using Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Repository;
 using Repository.Models;
 using TestProject;
@@ -7,15 +8,23 @@ using Xunit;
 
 
 
-public class UserRepositoryIntegrationTests : IClassFixture<DatabaseFixture>
+public class UserRepositoryIntegrationTests : IClassFixture<DatabaseFixture>, IDisposable
 { 
     private readonly MyWebApiShopContext _context;  
     private readonly UserRepository _repository;
+    private IDbContextTransaction _transaction;
 
     public UserRepositoryIntegrationTests(DatabaseFixture databaseFixture)
     {
         _context = databaseFixture.Context;
         _repository = new UserRepository(_context);
+        _transaction = _context.Database.BeginTransaction();
+
+    }
+    public void Dispose()
+    {
+        _transaction.Rollback();
+        _transaction.Dispose();
     }
 
     [Fact]

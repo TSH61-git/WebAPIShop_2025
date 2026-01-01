@@ -1,23 +1,32 @@
-﻿using Entities;
-using DTOs;
+﻿using DTOs;
+using Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Repository;
 using Repository.Models;
-using TestProject;
-using Xunit;
-using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using TestProject;
+using Xunit;
 
-public class ProductRepositoryIntegrationTests : IClassFixture<DatabaseFixture>
+public class ProductRepositoryIntegrationTests : IClassFixture<DatabaseFixture>, IDisposable
 {
     private readonly MyWebApiShopContext _context;
     private readonly ProductRepository _repository;
+    private IDbContextTransaction _transaction;
 
     public ProductRepositoryIntegrationTests(DatabaseFixture databaseFixture)
     {
         _context = databaseFixture.Context;
         _repository = new ProductRepository(_context);
+        _transaction = _context.Database.BeginTransaction();
+    }
+
+    public void Dispose()
+    {
+        _transaction.Rollback();
+        _transaction.Dispose();
     }
 
     [Fact]
@@ -30,22 +39,22 @@ public class ProductRepositoryIntegrationTests : IClassFixture<DatabaseFixture>
         await _context.SaveChangesAsync();
 
         // Act
-        var result = await _repository.GetProducts(new ProductSearchParams { });
+        var result = await _repository.GetProducts(1,10,new ProductSearchParams { });
 
         // Assert
-        Assert.Equal(2, result.Count);
-        Assert.Contains(result, p => p.ProductName == "Product1");
-        Assert.Contains(result, p => p.ProductName == "Product2");
+        Assert.Equal(2, result.Items.Count);
+        Assert.Contains(result.Items, p => p.ProductName == "Product1");
+        Assert.Contains(result.Items, p => p.ProductName == "Product2");
     }
 
     [Fact]
     public async Task GetProducts_NoProducts_ReturnsEmptyList()
     {
         // Act
-        var result = await _repository.GetProducts(new ProductSearchParams { });
+        var result = await _repository.GetProducts(1,10,new ProductSearchParams { });
 
         // Assert
-        Assert.Empty(result);
+        Assert.Empty(result.Items);
     }
 
 }
