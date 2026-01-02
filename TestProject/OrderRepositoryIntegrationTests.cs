@@ -6,23 +6,22 @@ using Repository.Models;
 
 namespace TestProject
 {
-    public class OrderRepositoryIntegrationTests : IClassFixture<DatabaseFixture>, IDisposable
+    public class OrderRepositoryIntegrationTests : IDisposable
     {
-        private readonly OrderRepository _repository;
+        private readonly DatabaseFixture _fixture;
         private readonly MyWebApiShopContext _context;
-        private IDbContextTransaction _transaction;
+        private readonly OrderRepository _repository;
 
-        public OrderRepositoryIntegrationTests(DatabaseFixture databaseFixture)
+        public OrderRepositoryIntegrationTests()
         {
-            _context = databaseFixture.Context;
+            _fixture = new DatabaseFixture();
+            _context = _fixture.Context;
             _repository = new OrderRepository(_context);
-            _transaction = _context.Database.BeginTransaction();
-
         }
+
         public void Dispose()
         {
-            _transaction.Rollback();
-            _transaction.Dispose();
+            _fixture.Dispose();
         }
 
         [Fact]

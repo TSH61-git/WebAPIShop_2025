@@ -8,6 +8,52 @@ namespace TestProject
 {
     public class UserRepositoryUnitTesting
     {
+        
+        //2. GetUserById
+
+        //ID קיים → מוחזר משתמש נכון
+
+        //ID לא קיים → מוחזר null
+
+        //ID = 0 → null
+
+
+        //5. AddUser / CreateUser
+
+        //משתמש תקין → נוסף בהצלחה
+
+        //משתמש null → Exception
+
+        //משתמש עם שדות חסרים → Exception
+
+        //משתמש כפול(Email / Username) → Exception / false
+
+
+        //6. UpdateUser
+
+        //משתמש קיים → עודכן
+
+        //משתמש לא קיים → Exception / false
+
+        //null → Exception
+
+        //עדכון חלקי
+
+
+        //8. Login / Authenticate(אם קיים)
+
+        //פרטי התחברות נכונים → הצלחה
+
+        //סיסמה שגויה → null
+
+        //משתמש לא קיים → null
+
+        //סיסמה ריקה
+
+        //null כקלט
+
+
+
         [Fact]
         public async Task GetUserById_UserExists_ReturnsUser()
         {

@@ -8,23 +8,22 @@ using Xunit;
 
 
 
-public class UserRepositoryIntegrationTests : IClassFixture<DatabaseFixture>, IDisposable
-{ 
-    private readonly MyWebApiShopContext _context;  
+public class UserRepositoryIntegrationTests : IDisposable
+{
+    private readonly DatabaseFixture _fixture;
+    private readonly MyWebApiShopContext _context;
     private readonly UserRepository _repository;
-    private IDbContextTransaction _transaction;
 
-    public UserRepositoryIntegrationTests(DatabaseFixture databaseFixture)
+    public UserRepositoryIntegrationTests()
     {
-        _context = databaseFixture.Context;
+        _fixture = new DatabaseFixture();
+        _context = _fixture.Context;
         _repository = new UserRepository(_context);
-        _transaction = _context.Database.BeginTransaction();
-
     }
+
     public void Dispose()
     {
-        _transaction.Rollback();
-        _transaction.Dispose();
+        _fixture.Dispose();
     }
 
     [Fact]

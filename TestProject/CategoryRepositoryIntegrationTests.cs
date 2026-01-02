@@ -6,24 +6,23 @@ using Repository.Models;
 
 namespace TestProject
 {
-    public class CategoryRepositoryIntegrationTests : IClassFixture<DatabaseFixture>, IDisposable
+    public class CategoryRepositoryIntegrationTests : IDisposable
     {
+
+        private readonly DatabaseFixture _fixture;
         private readonly MyWebApiShopContext _context;
         private readonly CategoryRepository _repository;
-        private IDbContextTransaction _transaction;
 
-        public CategoryRepositoryIntegrationTests(DatabaseFixture fixture)
+        public CategoryRepositoryIntegrationTests()
         {
-            _context = fixture.Context;
+            _fixture = new DatabaseFixture();
+            _context = _fixture.Context;
             _repository = new CategoryRepository(_context);
-
-            _transaction = _context.Database.BeginTransaction();
         }
 
         public void Dispose()
         {
-            _transaction.Rollback();
-            _transaction.Dispose();
+            _fixture.Dispose();
         }
 
         [Fact]

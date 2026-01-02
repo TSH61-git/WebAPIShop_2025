@@ -10,23 +10,22 @@ using System.Threading.Tasks;
 using TestProject;
 using Xunit;
 
-public class ProductRepositoryIntegrationTests : IClassFixture<DatabaseFixture>, IDisposable
+public class ProductRepositoryIntegrationTests : IDisposable
 {
+    private readonly DatabaseFixture _fixture;
     private readonly MyWebApiShopContext _context;
     private readonly ProductRepository _repository;
-    private IDbContextTransaction _transaction;
 
-    public ProductRepositoryIntegrationTests(DatabaseFixture databaseFixture)
+    public ProductRepositoryIntegrationTests()
     {
-        _context = databaseFixture.Context;
+        _fixture = new DatabaseFixture();
+        _context = _fixture.Context;
         _repository = new ProductRepository(_context);
-        _transaction = _context.Database.BeginTransaction();
     }
 
     public void Dispose()
     {
-        _transaction.Rollback();
-        _transaction.Dispose();
+        _fixture.Dispose();
     }
 
     [Fact]
