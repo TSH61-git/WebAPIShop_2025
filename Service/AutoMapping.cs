@@ -29,6 +29,9 @@ namespace Service
             CreateMap<OrderCreateDTO, Order>();
             CreateMap<Order, OrderReadDTO>();
             CreateMap<OrderItem, OrderItemDTO>().ReverseMap();
+
+            // מיפוי עבור סניפים
+            CreateMap<Branch, BranchDTO>().ReverseMap();
         }
     }
 }

@@ -2,18 +2,19 @@
 #nullable disable
 using System;
 using System.Collections.Generic;
-using Entities;
 using Microsoft.EntityFrameworkCore;
+using Entities;
 
 namespace Repository.Models;
 
 public partial class MyWebApiShopContext : DbContext
 {
-    public MyWebApiShopContext() { }
     public MyWebApiShopContext(DbContextOptions<MyWebApiShopContext> options)
         : base(options)
     {
     }
+
+    public virtual DbSet<Branch> Branches { get; set; }
 
     public virtual DbSet<Category> Categories { get; set; }
 
@@ -27,6 +28,19 @@ public partial class MyWebApiShopContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Branch>(entity =>
+        {
+            entity.Property(e => e.BranchId).HasColumnName("BranchID");
+            entity.Property(e => e.Address)
+                .HasMaxLength(30)
+                .IsUnicode(false);
+            entity.Property(e => e.BranchName)
+                .HasMaxLength(30)
+                .IsUnicode(false);
+            entity.Property(e => e.Latitude).HasColumnType("decimal(10, 8)");
+            entity.Property(e => e.Longitude).HasColumnType("decimal(11, 8)");
+        });
+
         modelBuilder.Entity<Category>(entity =>
         {
             entity.HasKey(e => e.CategoryId).HasName("PK__Categori__19093A2BF941C796");
@@ -38,6 +52,7 @@ public partial class MyWebApiShopContext : DbContext
                 .IsRequired()
                 .HasMaxLength(50)
                 .IsUnicode(false);
+            entity.Property(e => e.ImageUrl).IsUnicode(false);
         });
 
         modelBuilder.Entity<Order>(entity =>
@@ -82,6 +97,7 @@ public partial class MyWebApiShopContext : DbContext
             entity.Property(e => e.Description)
                 .HasMaxLength(100)
                 .IsUnicode(false);
+            entity.Property(e => e.ImageUrl).IsUnicode(false);
             entity.Property(e => e.Price).HasColumnType("decimal(10, 2)");
             entity.Property(e => e.ProductName)
                 .IsRequired()
@@ -114,6 +130,9 @@ public partial class MyWebApiShopContext : DbContext
             entity.Property(e => e.Password)
                 .IsRequired()
                 .HasMaxLength(50)
+                .IsUnicode(false);
+            entity.Property(e => e.Role)
+                .HasMaxLength(20)
                 .IsUnicode(false);
         });
 

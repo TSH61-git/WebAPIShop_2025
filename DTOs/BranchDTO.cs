@@ -6,6 +6,5 @@ using System.Threading.Tasks;
 
 namespace DTOs
 {
-    public record CategoryDTO ( int CategoryId, string CategoryName, string ImageUrl);
-        
+      public record BranchDTO(int BranchId, string BranchName, string Address, decimal? Latitude, decimal? Longitude);
 }
