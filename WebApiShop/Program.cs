@@ -17,6 +17,8 @@ builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddScoped<IPasswordService, PasswordService>();
 
+builder.Services.AddScoped<IBranchService, BranchService>();
+
 builder.Services.AddScoped<IProductService, ProductService>();
 
 builder.Services.AddScoped<ICategoryService, CategoryService>();
@@ -24,6 +26,8 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+builder.Services.AddScoped<IBranchRepository, BranchRepository>();
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 

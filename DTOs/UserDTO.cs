@@ -20,7 +20,6 @@ namespace DTOs
 
     public record UserRegisterDTO
     (
-
         [Required, EmailAddress]
         string Email,
 
@@ -38,11 +37,12 @@ namespace DTOs
     (
          int UserId,
 
-        [Required, EmailAddress]
-         string Email,
+         [Required]
+        string  Role,
 
         [Required]
          string FirstName,
+
 
         [Required]
          string LastName

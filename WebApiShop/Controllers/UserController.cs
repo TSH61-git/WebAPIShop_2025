@@ -39,7 +39,7 @@ namespace WebAPIShop.Controllers
         }
 
         // POST api/<UsersController>
-        [HttpPost]
+        [HttpPost("register")]
         public async Task<ActionResult<UserReadDTO>> Post([FromBody] UserRegisterDTO userRegisterDto)
         {
             var newUser = await _userService.AddUser(userRegisterDto);
@@ -54,7 +54,7 @@ namespace WebAPIShop.Controllers
         public async Task<ActionResult<UserReadDTO>> Login([FromBody] UserLoginDTO loginDto)
         {
             var user = await _userService.LoginUser(loginDto);
-            _logger.LogInformation("User registered successfully: Name: {FullName}, Email: {Email}", $"{user.FirstName} {user.LastName}", user.Email);
+            _logger.LogInformation("User registered successfully: Name: {FullName}, Email: {Email}", $"{user.FirstName} {user.LastName}", user.Role);
 
             if (user != null)
                 return Ok(user);
