@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Repository;
 using Service;
+using WebApiShop.MiddleWare;
 using NLog.Web;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -34,6 +35,10 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+
+builder.Services.AddScoped<IRatingRepository, RatingRepository>();
+
+builder.Services.AddScoped<IRatingService, RatingService>();
 
 builder.Services.AddDbContext<Repository.Models.MyWebApiShopContext>
     (option=> option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -70,6 +75,10 @@ if (app.Environment.IsDevelopment())
 
 
 app.UseHttpsRedirection();
+
+app.UseErrorHandling();
+
+app.UseRating();
 
 app.UseStaticFiles();
 
