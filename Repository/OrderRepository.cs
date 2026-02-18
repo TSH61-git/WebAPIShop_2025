@@ -1,10 +1,6 @@
 ﻿using Entities;
 using Repository.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository
 {
@@ -21,7 +17,28 @@ namespace Repository
         {
             if (order.OrderItems == null || !order.OrderItems.Any())
                 throw new InvalidOperationException("Order must have at least one item.");
+            // 2. חישוב המחיר - שליפת כל המזהים של המוצרים שנשלחו בהזמנה
+            var productIds = order.OrderItems.Select(oi => oi.ProductId).ToList();
 
+            // 3. שליפה מהירה של המחירים מה-DB עבור כל המוצרים הרלוונטיים
+            var products = await _context.Products
+                .Where(p => productIds.Contains(p.ProductId))
+                .ToListAsync();
+
+            decimal totalSum = 0;
+            foreach (var item in order.OrderItems)
+            {
+                var product = products.FirstOrDefault(p => p.ProductId == item.ProductId);
+                if (product != null)
+                {
+                    totalSum += (product.Price * item.Quantity);
+                }
+            }
+            if (order.OrderSum != totalSum)
+                { }
+                //קיים שינוי ע"י המשתמש צריך להוסיף כתיבה ללוגר
+            order.OrderSum = totalSum;
+            //
             await _context.Orders.AddAsync(order);
             await _context.SaveChangesAsync();
             return order;

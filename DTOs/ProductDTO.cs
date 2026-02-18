@@ -15,6 +15,8 @@ namespace DTOs
 
         decimal Price,
 
+        string ImageUrl,
+
         int CategoryId,
 
         string Description
@@ -26,6 +28,8 @@ namespace DTOs
         int ProductId,
 
         string ProductName,
+
+        string ImageUrl,
 
         decimal Price
     );

@@ -15,11 +15,15 @@ namespace Repository
             _context = context;
         }
 
-        // 
         async public Task<User> GetUserById(int id)
         {
             User? user = await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
             return user;
+        }
+
+        async public Task<bool> IsEmailExistsAsync(string email)
+        {
+            return await _context.Users.AnyAsync(u => u.Email == email);
         }
 
         async public Task<User> AddUser(User user)

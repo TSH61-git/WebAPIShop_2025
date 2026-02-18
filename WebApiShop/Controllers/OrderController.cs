@@ -38,7 +38,6 @@ namespace WebApiShop.Controllers
         [HttpPost]
         async public Task<ActionResult<OrderReadDTO>> Post([FromBody] OrderCreateDTO order)
         {
-            // הקריאה ל-Service שמחזיר OrderReadDTO
             var newOrder = await _orderService.addOrder(order);
             if (newOrder == null)
                 return BadRequest(); 

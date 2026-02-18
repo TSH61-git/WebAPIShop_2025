@@ -10,6 +10,8 @@ namespace DTOs
     (
         int UserId,
 
+        decimal OrderSum, 
+
         List<OrderItemDTO> OrderItems
     );
     

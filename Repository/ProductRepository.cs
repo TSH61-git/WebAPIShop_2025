@@ -24,6 +24,9 @@ namespace Repository
             && ((parameters.CategoryIDs == null || parameters.CategoryIDs.Count == 0) ? (true) : (parameters.CategoryIDs.Contains((int)product.CategoryId))))
             .OrderBy(product => product.Price);
 
+            if (position < 1) position = 1;
+            if (skip < 1) skip = 10; // או ערך ברירת מחדל אחר
+
             List<Product> products = await query.Skip((position - 1) * skip)
             .Take(skip).Include(product => product.Category).ToListAsync();
             var total = await query.CountAsync();

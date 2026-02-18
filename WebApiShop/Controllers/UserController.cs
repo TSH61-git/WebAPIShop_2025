@@ -42,22 +42,29 @@ namespace WebAPIShop.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserReadDTO>> Post([FromBody] UserRegisterDTO userRegisterDto)
         {
-            var newUser = await _userService.AddUser(userRegisterDto);
-            _logger.LogInformation("New user registration: Name: {FullName}, Email: {Email}",
-                userRegisterDto.FirstName+ " " + userRegisterDto.LastName, userRegisterDto.Email);
-            if (newUser == null)
-                return BadRequest("Registration failed or password is not strong enough.");
-            return CreatedAtAction(nameof(Get), new { id = newUser.UserId }, newUser);
+            try
+            {
+                var newUser = await _userService.AddUser(userRegisterDto);
+                _logger.LogInformation("New user registration: Name: {FullName}, Email: {Email}",
+                    userRegisterDto.FirstName + " " + userRegisterDto.LastName, userRegisterDto.Email);
+                if (newUser == null)
+                    return BadRequest("שגיאה ביצירת המשתמש.");
+                return CreatedAtAction(nameof(Get), new { id = newUser.UserId }, newUser);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost("login")]
         public async Task<ActionResult<UserReadDTO>> Login([FromBody] UserLoginDTO loginDto)
         {
             var user = await _userService.LoginUser(loginDto);
-            _logger.LogInformation("User registered successfully: Name: {FullName}, Email: {Email}", $"{user.FirstName} {user.LastName}", user.Role);
-
-            if (user != null)
+            if (user != null) {
                 return Ok(user);
+                _logger.LogInformation("User registered successfully: Name: {FullName}, Email: {Email}", $"{user.FirstName} {user.LastName}", user.Role);
+            }
             return Unauthorized();
         }
 

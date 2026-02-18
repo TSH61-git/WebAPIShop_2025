@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DTOs;
 using Entities;
+using Microsoft.EntityFrameworkCore;
 using Repository;
 using Repository.Models;
 using Zxcvbn;
@@ -29,6 +30,16 @@ namespace Service
 
         public async Task<UserReadDTO> AddUser(UserRegisterDTO userRegisterDto)
         {
+            if (!_passwordService.IsPasswordStrong(userRegisterDto.Password))
+            {
+                throw new Exception("הסיסמה חלשה מדי. נסה לשלב אותיות, מספרים ותווים מיוחדים.");
+            }
+
+            if (await _userRepository.IsEmailExistsAsync(userRegisterDto.Email))
+            {
+                throw new Exception("כתובת האימייל כבר קיימת במערכת.");
+            }
+
             User user = _mapper.Map<User>(userRegisterDto);
             User newUser = await _userRepository.AddUser(user);
             return _mapper.Map<UserReadDTO>(newUser);
