@@ -1,7 +1,6 @@
 ﻿using Entities;
 using DTOs;
 using Microsoft.EntityFrameworkCore;
-using Repository.Models;
 
 namespace Repository
 {

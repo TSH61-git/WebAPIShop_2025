@@ -30,7 +30,14 @@ namespace DTOs
         string LastName,
 
         [Required]
-        string Password
+        string Password,
+
+        string? Phone,
+
+        string? City,
+
+        string? Street
+
     );
 
     public record UserReadDTO
@@ -43,9 +50,14 @@ namespace DTOs
         [Required]
          string FirstName,
 
-
         [Required]
-         string LastName
+         string LastName,
+
+        string? Phone,
+
+        string? City,
+
+        string? Street
     );
 
 

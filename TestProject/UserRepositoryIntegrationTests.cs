@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Repository;
-using Repository.Models;
 using TestProject;
 using Xunit;
 

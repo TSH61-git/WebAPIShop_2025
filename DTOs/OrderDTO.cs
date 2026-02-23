@@ -12,7 +12,9 @@ namespace DTOs
 
         decimal OrderSum, 
 
-        List<OrderItemDTO> OrderItems
+        List<OrderItemDTO> OrderItems,
+
+        string? Status
     );
     
 
@@ -25,6 +27,8 @@ namespace DTOs
         decimal? OrderSum,
 
         int UserId,
+
+        string? Status,
 
         List<OrderItemDTO> OrderItems);
 

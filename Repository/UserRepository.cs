@@ -1,7 +1,5 @@
-﻿//using Entities;
-using Entities;
+﻿using Entities;
 using Microsoft.EntityFrameworkCore;
-using Repository.Models;
 using System.Text.Json;
 
 namespace Repository

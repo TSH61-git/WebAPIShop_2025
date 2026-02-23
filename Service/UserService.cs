@@ -3,7 +3,6 @@ using DTOs;
 using Entities;
 using Microsoft.EntityFrameworkCore;
 using Repository;
-using Repository.Models;
 using Zxcvbn;
 
 namespace Service

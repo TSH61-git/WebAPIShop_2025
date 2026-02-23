@@ -41,7 +41,7 @@ builder.Services.AddScoped<IRatingRepository, RatingRepository>();
 
 builder.Services.AddScoped<IRatingService, RatingService>();
 
-builder.Services.AddDbContext<Repository.Models.MyWebApiShopContext>
+builder.Services.AddDbContext<Repository.MyWebApiShopContext>
     (option=> option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

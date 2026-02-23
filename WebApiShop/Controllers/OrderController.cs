@@ -34,13 +34,24 @@ namespace WebApiShop.Controllers
             return "value";
         }
 
+        [HttpGet("user/{userId}")]
+        public async Task<ActionResult<IEnumerable<OrderReadDTO>>> GetUserOrders(int userId)
+        {
+            var orders = await _orderService.GetOrdersByUserIdAsync(userId);
+
+            if (orders == null || !orders.Any())
+                return NotFound(new { Message = $"No orders found for user {userId}" });
+
+            return Ok(orders);
+        }
+
         // POST api/<OrderController>
         [HttpPost]
         async public Task<ActionResult<OrderReadDTO>> Post([FromBody] OrderCreateDTO order)
         {
             var newOrder = await _orderService.addOrder(order);
             if (newOrder == null)
-                return BadRequest(); 
+                return BadRequest();
             return CreatedAtAction(nameof(Get), new { id = newOrder.OrderId }, newOrder);
         }
 

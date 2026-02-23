@@ -1,7 +1,6 @@
 ﻿using DTOs;
 using Entities;
 using Microsoft.AspNetCore.Mvc;
-using Repository.Models;
 
 namespace WebAPIShop.Controllers
 {

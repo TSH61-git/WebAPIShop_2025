@@ -1,6 +1,5 @@
 ﻿using DTOs;
 using Entities;
-using Repository.Models;
 
 namespace Service
 {

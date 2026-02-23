@@ -2,7 +2,6 @@
 using Moq;
 using Moq.EntityFrameworkCore;
 using Repository;
-using Repository.Models;
 
 
 namespace TestProject
