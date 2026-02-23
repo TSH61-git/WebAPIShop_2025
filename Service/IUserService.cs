@@ -9,6 +9,6 @@ namespace Service
 
         Task<UserReadDTO> AddUser(UserRegisterDTO userRegisterDto);
         Task<UserReadDTO> LoginUser(UserLoginDTO userLoginDto);
-        Task<bool> UpdateUser(int id, UserRegisterDTO userUpdateDto);
+        Task<bool> UpdateUser(int id, UserUpdateDTO userUpdateDto);
     }
 }

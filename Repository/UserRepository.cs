@@ -43,10 +43,12 @@ namespace Repository
             User user1 = await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
             if (user1 != null)
             {
-                user1.Email = myUser.Email;
                 user1.FirstName = myUser.FirstName;
                 user1.LastName = myUser.LastName;
-                user1.Password = myUser.Password;
+                user1.Phone = myUser.Phone;
+                user1.City = myUser.City;
+                user1.Street = myUser.Street;
+
                 await _context.SaveChangesAsync();
             }
         }

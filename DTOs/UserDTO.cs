@@ -40,6 +40,21 @@ namespace DTOs
 
     );
 
+    public record UserUpdateDTO
+    (
+        [Required]
+        string FirstName,
+
+        [Required]
+        string LastName,
+
+        string? Phone,
+
+        string? City,
+
+        string? Street
+    );
+
     public record UserReadDTO
     (
          int UserId,

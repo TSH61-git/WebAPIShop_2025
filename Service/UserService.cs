@@ -51,10 +51,8 @@ namespace Service
             return _mapper.Map<UserReadDTO>(user);
         }
 
-        public async Task<bool> UpdateUser(int id, UserRegisterDTO userUpdateDto)
+        public async Task<bool> UpdateUser(int id, UserUpdateDTO userUpdateDto)
         {
-            if (!_passwordService.IsPasswordStrong(userUpdateDto.Password))
-                return false;
             User user = _mapper.Map<User>(userUpdateDto);
             await _userRepository.UpdateUser(id, user);
             return true;

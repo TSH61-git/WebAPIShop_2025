@@ -24,6 +24,7 @@ namespace Service
             CreateMap<User, UserReadDTO>();
             CreateMap<UserRegisterDTO, User>();
             CreateMap<UserLoginDTO, User>();
+            CreateMap<UserUpdateDTO, User>();
 
             // מיפוי עבור הזמנות
             CreateMap<OrderCreateDTO, Order>();
