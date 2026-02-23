@@ -23,10 +23,20 @@ namespace Service
             _mapper = mapper;
         }
 
+        public async Task<Product> AddProductAsync(Product product)
+        {
+            return await _productRepository.AddProductAsync(product);
+        }
+
+        public async Task<bool> UpdateProductAsync(Product product)
+        {
+            return await _productRepository.UpdateProductAsync(product);
+        }
+
         public async Task<PageResponseDTO<ProductDTO>> GetProducts(int position, int skip, ProductSearchParams parameters)
         {
             (List<Product>, int) response = await _productRepository.GetProducts(position, skip, parameters);
-            
+
             PageResponseDTO<ProductDTO> pResponse = new();
             List<ProductDTO> products = _mapper.Map<List<ProductDTO>>(response.Item1);
             pResponse.Data = products;
@@ -38,5 +48,16 @@ namespace Service
             pResponse.HasNextPage = position < numOfPages;
             return pResponse;
         }
+
+        public async Task<Product?> GetProductById(int id)
+        {
+            return await _productRepository.GetProductById(id);
+        }
+
+        public async Task<bool> DeleteProductAsync(int id)
+        {
+            return await _productRepository.DeleteProductAsync(id);
+        }
+
     }
 }

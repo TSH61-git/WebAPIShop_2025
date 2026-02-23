@@ -14,6 +14,28 @@ namespace Repository
             _context = context;
         }
 
+        public async Task<Product> AddProductAsync(Product product)
+        {
+            _context.Products.Add(product);
+            await _context.SaveChangesAsync();
+            return product;
+        }
+
+        public async Task<bool> UpdateProductAsync(Product product)
+        {
+            var existing = await _context.Products.FindAsync(product.ProductId);
+            if (existing == null)
+                return false;
+
+            existing.ProductName = product.ProductName;
+            existing.Price = product.Price;
+            existing.Description = product.Description;
+            existing.CategoryId = product.CategoryId;
+
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<(List<Product> Items, int TotalCount)> GetProducts(int position, int skip, ProductSearchParams? parameters)
         {
 
@@ -31,6 +53,26 @@ namespace Repository
             .Take(skip).Include(product => product.Category).ToListAsync();
             var total = await query.CountAsync();
             return (products, total);
+        }
+
+        public async Task<Product?> GetProductById(int id)
+        {
+            var product = await _context.Products
+                .Include(p => p.Category)
+                .FirstOrDefaultAsync(p => p.ProductId == id);
+
+            return product;
+        }
+
+        public async Task<bool> DeleteProductAsync(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
+                return false;
+
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

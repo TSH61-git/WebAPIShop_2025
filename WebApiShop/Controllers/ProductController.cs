@@ -18,6 +18,14 @@ namespace WebApiShop.Controllers
             _productService = productService;
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CreateProduct([FromBody] Product product)
+        {
+            var created = await _productService.AddProductAsync(product);
+            return CreatedAtAction(nameof(GetProductById),
+                new { id = created.ProductId }, created);
+        }
+
         // GET: api/<ValuesController>
         [HttpGet]
         async public Task<ActionResult<PageResponseDTO<ProductDTO>>> Get(int position, int skip, [FromQuery] ProductSearchParams parameters)
@@ -30,9 +38,14 @@ namespace WebApiShop.Controllers
 
         // GET api/<ValuesController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IActionResult> GetProductById(int id)
         {
-            return "value";
+            var product = await _productService.GetProductById(id);
+
+            if (product == null)
+                return NotFound();
+
+            return Ok(product);
         }
 
         // POST api/<ValuesController>
@@ -43,14 +56,29 @@ namespace WebApiShop.Controllers
 
         // PUT api/<ValuesController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> UpdateProduct(int id, [FromBody] Product product)
         {
+            if (id != product.ProductId)
+                return BadRequest();
+
+            var result = await _productService.UpdateProductAsync(product);
+
+            if (!result)
+                return NotFound();
+
+            return NoContent();
         }
 
         // DELETE api/<ValuesController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> DeleteProduct(int id)
         {
+            var result = await _productService.DeleteProductAsync(id);
+
+            if (!result)
+                return NotFound();
+
+            return NoContent();
         }
     }
 }
