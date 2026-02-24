@@ -10,7 +10,6 @@ namespace WebApiShop.Controllers
         Task<IActionResult> DeleteProduct(int id);
         Task<ActionResult<PageResponseDTO<ProductDTO>>> Get(int position, int skip, [FromQuery] ProductSearchParams parameters);
         Task<IActionResult> GetProductById(int id);
-        void Post([FromBody] string value);
         Task<IActionResult> UpdateProduct(int id, [FromBody] Product product);
     }
 }

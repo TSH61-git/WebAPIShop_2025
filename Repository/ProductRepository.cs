@@ -63,15 +63,20 @@ namespace Repository
             return product;
         }
 
-        public async Task<bool> DeleteProductAsync(int id)
+        public async Task DeleteProductAsync(int id)
         {
             var product = await _context.Products.FindAsync(id);
-            if (product == null)
-                return false;
 
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
-            return true;
+            if (product != null)
+            {
+                _context.Products.Remove(product);
+                await _context.SaveChangesAsync();
+            }
+        }
+        public async Task<bool> ProductHasOrdersAsync(int productId)
+        {
+            return await _context.OrderItems
+                .AnyAsync(o => o.ProductId == productId);
         }
     }
 }

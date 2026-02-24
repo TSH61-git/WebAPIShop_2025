@@ -48,11 +48,6 @@ namespace WebApiShop.Controllers
             return Ok(product);
         }
 
-        // POST api/<ValuesController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
 
         // PUT api/<ValuesController>/5
         [HttpPut("{id}")]
@@ -76,7 +71,7 @@ namespace WebApiShop.Controllers
             var result = await _productService.DeleteProductAsync(id);
 
             if (!result)
-                return NotFound();
+                return BadRequest("לא ניתן למחוק מוצר שנרכש");
 
             return NoContent();
         }

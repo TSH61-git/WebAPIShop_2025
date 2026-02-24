@@ -56,7 +56,11 @@ namespace Service
 
         public async Task<bool> DeleteProductAsync(int id)
         {
-            return await _productRepository.DeleteProductAsync(id);
+            if (await _productRepository.ProductHasOrdersAsync(id))
+                return false;
+
+            await _productRepository.DeleteProductAsync(id);
+            return true;
         }
 
     }
