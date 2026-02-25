@@ -6,7 +6,6 @@ namespace WebApiShop.Controllers
     public interface IOrderController
     {
         void Delete(int id);
-        IEnumerable<string> Get();
         string Get(int id);
 
         Task<IActionResult> GetAllOrders();

@@ -20,13 +20,6 @@ namespace WebApiShop.Controllers
             _orderService = orderService;
         }
 
-        // GET: api/<OrderController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
         // GET api/<OrderController>/5
         [HttpGet("{id}")]
         public string Get(int id)
