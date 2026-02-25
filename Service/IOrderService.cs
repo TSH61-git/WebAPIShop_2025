@@ -11,5 +11,7 @@ namespace Service
         Task<IEnumerable<OrderReadDTO>> GetOrdersByUserIdAsync(int userId);
 
         Task<OrderReadDTO> addOrder(OrderCreateDTO orderDto);
+
+        Task<bool> UpdateOrderStatusAsync(int orderId, string status);
     }
 }

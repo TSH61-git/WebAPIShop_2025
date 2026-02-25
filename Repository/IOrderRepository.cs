@@ -7,5 +7,6 @@ namespace Repository
         Task<IEnumerable<Order>> GetAllOrdersAsync();
         Task<IEnumerable<Order>> GetOrdersByUserIdAsync(int userId);
         Task<Order> AddOrder(Order oredr);
+        Task<bool> UpdateOrderStatusAsync(int orderId, string status);
     }
 }

@@ -11,6 +11,6 @@ namespace WebApiShop.Controllers
         Task<IActionResult> GetAllOrders();
         Task<ActionResult<IEnumerable<OrderReadDTO>>> GetUserOrders(int userId);
         Task<ActionResult<OrderReadDTO>> Post([FromBody] OrderCreateDTO order);
-        void Put(int id, [FromBody] string value);
+        Task<IActionResult> Put(int id, [FromBody] string status);
     }
 }

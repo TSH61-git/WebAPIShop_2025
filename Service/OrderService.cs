@@ -40,5 +40,18 @@ namespace Service
             Order newOrder = await _orderRepository.AddOrder(order);
             return _mapper.Map<OrderReadDTO>(newOrder);
         }
+
+        public async Task<bool> UpdateOrderStatusAsync(int orderId, string status)
+        {
+            if (string.IsNullOrWhiteSpace(status))
+                throw new ArgumentException("Status cannot be empty.", nameof(status));
+
+            // Allowed statuses - business rule
+            var allowed = new[] { "Accepted", "Processing", "Shipped", "Delivered", "Cancelled" };
+            if (!allowed.Contains(status))
+                throw new ArgumentException($"Status '{status}' is not valid.");
+
+            return await _orderRepository.UpdateOrderStatusAsync(orderId, status);
+        }
     }
 }
