@@ -12,6 +12,13 @@ namespace Repository
             _context = context;
         }
 
+        public async Task<IEnumerable<Order>> GetAllOrdersAsync()
+        {
+            return await _context.Orders
+                .Include(o => o.OrderItems) // טעינת פריטי הזמנה
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<Order>> GetOrdersByUserIdAsync(int userId)
         {
             return await _context.Orders

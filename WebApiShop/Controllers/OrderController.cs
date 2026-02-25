@@ -34,6 +34,14 @@ namespace WebApiShop.Controllers
             return "value";
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAllOrders()
+        {
+            var orders = await _orderService.GetAllOrdersAsync();
+            return Ok(orders);
+        }
+
+
         [HttpGet("user/{userId}")]
         public async Task<ActionResult<IEnumerable<OrderReadDTO>>> GetUserOrders(int userId)
         {

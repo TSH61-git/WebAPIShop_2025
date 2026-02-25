@@ -22,6 +22,10 @@ namespace Service
             _mapper = mapper;
         }
 
+        public async Task<IEnumerable<Order>> GetAllOrdersAsync()
+        {
+            return await _orderRepository.GetAllOrdersAsync();
+        }
         public async Task<IEnumerable<OrderReadDTO>> GetOrdersByUserIdAsync(int userId)
         {
             var orders = await _orderRepository.GetOrdersByUserIdAsync(userId);
