@@ -63,7 +63,7 @@ namespace Service
             if (string.IsNullOrWhiteSpace(dto.Status))
                 throw new ArgumentException("Status חסר");
 
-            var allowed = new[] { "Accepted", "Processing", "Shipped", "Delivered", "Cancelled" };
+            var allowed = new[] { "Accepted", "Processing", "Shipped", "Delivered" };
 
             if (!allowed.Contains(dto.Status))
                 throw new ArgumentException("סטטוס לא חוקי");
