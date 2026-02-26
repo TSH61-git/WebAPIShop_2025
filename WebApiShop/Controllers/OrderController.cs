@@ -57,16 +57,12 @@ namespace WebApiShop.Controllers
         }
 
         // PUT api/<OrderController>/5
-        // PUT api/<OrderController>/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] string status)
+        public async Task<IActionResult> Put(int id, [FromBody] ChangeOrderStatusDto dto)
         {
-            if (string.IsNullOrWhiteSpace(status))
-                return BadRequest(new { Message = "Status cannot be empty." });
-
             try
             {
-                var updated = await _orderService.UpdateOrderStatusAsync(id, status);
+                var updated = await _orderService.UpdateOrderStatusAsync(id, dto);
                 if (!updated)
                     return NotFound(new { Message = $"Order with id {id} not found." });
 

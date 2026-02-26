@@ -19,6 +19,11 @@ namespace Repository
                 .ToListAsync();
         }
 
+        public async Task<Order?> GetByIdAsync(int orderId)
+        {
+            return await _context.Orders.FindAsync(orderId);
+        }
+
         public async Task<IEnumerable<Order>> GetOrdersByUserIdAsync(int userId)
         {
             return await _context.Orders
@@ -56,6 +61,7 @@ namespace Repository
             return order;
         }
 
+
         public async Task<bool> UpdateOrderStatusAsync(int orderId, string status)
         {
             var order = await _context.Orders.FindAsync(orderId);
@@ -67,5 +73,6 @@ namespace Repository
             await _context.SaveChangesAsync();
             return true;
         }
+
     }
 }

@@ -12,6 +12,6 @@ namespace Service
 
         Task<OrderReadDTO> addOrder(OrderCreateDTO orderDto);
 
-        Task<bool> UpdateOrderStatusAsync(int orderId, string status);
+        Task<bool> UpdateOrderStatusAsync(int orderId, ChangeOrderStatusDto dto);
     }
 }

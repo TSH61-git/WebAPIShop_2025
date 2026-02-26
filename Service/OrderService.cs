@@ -41,17 +41,34 @@ namespace Service
             return _mapper.Map<OrderReadDTO>(newOrder);
         }
 
-        public async Task<bool> UpdateOrderStatusAsync(int orderId, string status)
+        public async Task<bool> UpdateOrderStatusAsync(int orderId, ChangeOrderStatusDto dto)
         {
-            if (string.IsNullOrWhiteSpace(status))
-                throw new ArgumentException("Status cannot be empty.", nameof(status));
+            var order = await _orderRepository.GetByIdAsync(orderId);
+            if (order == null) return false;
 
-            // Allowed statuses - business rule
+            // נעילה אחרי Received
+            if (order.Status == "Received")
+                throw new InvalidOperationException("אי אפשר לשנות אחרי Received");
+
+            // אם לקוח לחץ קיבלתי
+            if (dto.Received)
+            {
+                if (order.Status != "Delivered")
+                    throw new InvalidOperationException("אפשר לסמן קיבלתי רק אחרי Delivered");
+
+                return await _orderRepository.UpdateOrderStatusAsync(orderId, "Received");
+            }
+
+            // שינוי רגיל
+            if (string.IsNullOrWhiteSpace(dto.Status))
+                throw new ArgumentException("Status חסר");
+
             var allowed = new[] { "Accepted", "Processing", "Shipped", "Delivered", "Cancelled" };
-            if (!allowed.Contains(status))
-                throw new ArgumentException($"Status '{status}' is not valid.");
 
-            return await _orderRepository.UpdateOrderStatusAsync(orderId, status);
+            if (!allowed.Contains(dto.Status))
+                throw new ArgumentException("סטטוס לא חוקי");
+
+            return await _orderRepository.UpdateOrderStatusAsync(orderId, dto.Status);
         }
     }
 }
