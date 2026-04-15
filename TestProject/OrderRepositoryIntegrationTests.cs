@@ -1,6 +1,8 @@
 ﻿using Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.Extensions.Logging;
+using Moq;
 using Repository;
 
 namespace TestProject
@@ -15,7 +17,8 @@ namespace TestProject
         {
             _fixture = new DatabaseFixture();
             _context = _fixture.Context;
-            _repository = new OrderRepository(_context);
+            var mockLogger = new Mock<ILogger<OrderRepository>>(); 
+            _repository = new OrderRepository(_context, mockLogger.Object);
         }
 
         public void Dispose()
