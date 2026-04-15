@@ -54,11 +54,9 @@ namespace Service
             var order = await _orderRepository.GetByIdAsync(orderId);
             if (order == null) return false;
 
-            // נעילה אחרי Received
             if (order.Status == "Received")
                 throw new InvalidOperationException("אי אפשר לשנות אחרי Received");
 
-            // אם לקוח לחץ קיבלתי
             if (dto.Received)
             {
                 if (order.Status != "Delivered")
@@ -67,7 +65,6 @@ namespace Service
                 return await _orderRepository.UpdateOrderStatusAsync(orderId, "Received");
             }
 
-            // שינוי רגיל
             if (string.IsNullOrWhiteSpace(dto.Status))
                 throw new ArgumentException("Status חסר");
 

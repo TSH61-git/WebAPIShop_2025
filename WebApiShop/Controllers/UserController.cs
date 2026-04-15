@@ -55,8 +55,8 @@ namespace WebAPIShop.Controllers
         {
             var user = await _userService.LoginUser(loginDto);
             if (user != null) {
-                return Ok(user);
                 _logger.LogInformation("User registered successfully: Name: {FullName}, Email: {Email}", $"{user.FirstName} {user.LastName}", user.Role);
+                return Ok(user);
             }
             return Unauthorized();
         }

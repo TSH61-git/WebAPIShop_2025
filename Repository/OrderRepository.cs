@@ -1,15 +1,19 @@
 ﻿using Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace Repository
 {
     public class OrderRepository : IOrderRepository
     {
         private readonly MyWebApiShopContext _context;
+        private readonly ILogger<UserRepository> _logger; 
 
-        public OrderRepository(MyWebApiShopContext context)
+        public OrderRepository(MyWebApiShopContext context, ILogger<UserRepository> logger)
         {
             _context = context;
+            _logger = logger;
+
         }
 
         public async Task<Order> GetOrderByIdAsync(int id)
@@ -22,7 +26,7 @@ namespace Repository
         public async Task<IEnumerable<Order>> GetAllOrdersAsync()
         {
             return await _context.Orders
-                .Include(o => o.OrderItems) // טעינת פריטי הזמנה
+                .Include(o => o.OrderItems) 
                 .ToListAsync();
         }
 
@@ -34,7 +38,7 @@ namespace Repository
         public async Task<IEnumerable<Order>> GetOrdersByUserIdAsync(int userId)
         {
             return await _context.Orders
-                .Include(o => o.OrderItems) // טעינת פריטי ההזמנה (Eager Loading)
+                .Include(o => o.OrderItems) 
                 .Where(o => o.UserId == userId)
                 .ToListAsync();
         }
@@ -59,8 +63,8 @@ namespace Repository
                 }
             }
             if (order.OrderSum != totalSum)
-                { }
-                //קיים שינוי ע"י המשתמש צריך להוסיף כתיבה ללוגר
+                _logger.LogError("SECURITY ALERT: Order sum mismatch! User {UserId} attempted to pay {ClientSum} but actual total is {ServerSum}.",
+                         order.UserId, order.OrderSum ,totalSum);
             order.OrderSum = totalSum;
             //
             await _context.Orders.AddAsync(order);
