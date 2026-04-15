@@ -9,12 +9,13 @@ namespace DTOs
 {
     public class ProductSearchParams
     {
+        public string? Name { get; set; }
         public string? Desc { get; set; }
         public decimal? MinPrice { get; set; }
         public decimal? MaxPrice { get; set; }
         public List<int>? CategoryIDs { get; set; }
         public string? OrderBy { get; set; }
-        public bool IsAscending { get; set; }
+        public bool? IsAscending { get; set; }
 
     }
 }

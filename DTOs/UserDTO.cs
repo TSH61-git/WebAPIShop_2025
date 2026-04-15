@@ -9,45 +9,52 @@ namespace DTOs
 {
     public record UserLoginDTO
     (
-        [Required, EmailAddress]
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email format")]
         string Email,
 
-        [Required]
+        [Required(ErrorMessage = "Password is required")]
         string Password
-
     );
-
 
     public record UserRegisterDTO
     (
-        [Required, EmailAddress]
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email format")]
         string Email,
 
-        [Required]
+        [Required(ErrorMessage = "First name is required")]
+        [StringLength(20, MinimumLength = 2, ErrorMessage = "First name must be between 2 and 20 characters")]
         string FirstName,
 
-        [Required]
+        [Required(ErrorMessage = "Last name is required")]
+        [StringLength(20, MinimumLength = 2, ErrorMessage = "Last name must be between 2 and 20 characters")]
         string LastName,
 
-        [Required]
+        [Required(ErrorMessage = "Password is required")]
+        // שימי לב: חוזק סיסמה את בודקת ב-Service, אבל אפשר להוסיף פה אורך מינימלי
+        [MinLength(6, ErrorMessage = "Password must be at least 6 characters long")]
         string Password,
 
+        [Phone(ErrorMessage = "Invalid phone number format")]
         string? Phone,
 
         string? City,
 
         string? Street
-
     );
 
     public record UserUpdateDTO
     (
-        [Required]
+        [Required(ErrorMessage = "First name is required")]
+        [StringLength(20, MinimumLength = 2, ErrorMessage = "First name must be between 2 and 20 characters")]
         string FirstName,
 
-        [Required]
+        [Required(ErrorMessage = "Last name is required")]
+        [StringLength(20, MinimumLength = 2, ErrorMessage = "Last name must be between 2 and 20 characters")]
         string LastName,
 
+        [Phone(ErrorMessage = "Invalid phone number format")]
         string? Phone,
 
         string? City,
@@ -60,20 +67,18 @@ namespace DTOs
          int UserId,
 
          [Required]
-        string  Role,
+         string Role,
 
-        [Required]
+         [Required]
          string FirstName,
 
-        [Required]
+         [Required]
          string LastName,
 
-        string? Phone,
+         string? Phone,
 
-        string? City,
+         string? City,
 
-        string? Street
+         string? Street
     );
-
-
 }

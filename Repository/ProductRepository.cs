@@ -40,6 +40,7 @@ namespace Repository
 
             var query = _context.Products.Where(product =>
             ((parameters.Desc == null) ? (true) : (product.Description.Contains(parameters.Desc)))
+            && ((parameters.Name == null) ? (true) : (product.ProductName.Contains(parameters.Name)))
             && ((parameters.MinPrice == null) ? (true) : (product.Price >= parameters.MinPrice))
             && ((parameters.MaxPrice == null) ? (true) : (product.Price <= parameters.MaxPrice))
             && ((parameters.CategoryIDs == null || parameters.CategoryIDs.Count == 0) ? (true) : (parameters.CategoryIDs.Contains((int)product.CategoryId))));
