@@ -23,9 +23,11 @@ namespace Service
             _mapper = mapper;
         }
 
-        public async Task<Product> AddProductAsync(Product product)
+        public async Task<ProductDTO> AddProductAsync(ProductDTO productDto)
         {
-            return await _productRepository.AddProductAsync(product);
+            var product = _mapper.Map<Product>(productDto);
+            var addedProduct = await _productRepository.AddProductAsync(product);
+            return _mapper.Map<ProductDTO>(addedProduct);
         }
 
         public async Task<bool> UpdateProductAsync(Product product)
@@ -49,9 +51,10 @@ namespace Service
             return pResponse;
         }
 
-        public async Task<Product?> GetProductById(int id)
+        public async Task<ProductDTO?> GetProductById(int id)
         {
-            return await _productRepository.GetProductById(id);
+            var product = await _productRepository.GetProductById(id);
+            return product != null ? _mapper.Map<ProductDTO>(product) : null;
         }
 
         public async Task<bool> DeleteProductAsync(int id)

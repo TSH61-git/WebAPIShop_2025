@@ -1,5 +1,5 @@
-﻿using Entities;
-using DTOs;
+﻿using DTOs;
+using Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace Repository
@@ -42,15 +42,25 @@ namespace Repository
             ((parameters.Desc == null) ? (true) : (product.Description.Contains(parameters.Desc)))
             && ((parameters.MinPrice == null) ? (true) : (product.Price >= parameters.MinPrice))
             && ((parameters.MaxPrice == null) ? (true) : (product.Price <= parameters.MaxPrice))
-            && ((parameters.CategoryIDs == null || parameters.CategoryIDs.Count == 0) ? (true) : (parameters.CategoryIDs.Contains((int)product.CategoryId))))
-            .OrderBy(product => product.Price);
+            && ((parameters.CategoryIDs == null || parameters.CategoryIDs.Count == 0) ? (true) : (parameters.CategoryIDs.Contains((int)product.CategoryId))));
+
+            bool isAsc = parameters?.IsAscending ?? true;
+
+            query = parameters?.OrderBy?.ToLower() switch
+            {
+                "name" => isAsc ? query.OrderBy(p => p.ProductName) : query.OrderByDescending(p => p.ProductName),
+                "category" => isAsc ? query.OrderBy(p => p.Category.CategoryName) : query.OrderByDescending(p => p.Category.CategoryName),
+                "price" => isAsc ? query.OrderBy(p => p.Price) : query.OrderByDescending(p => p.Price),
+                _ => isAsc ? query.OrderBy(p => p.Price) : query.OrderByDescending(p => p.Price)
+            };
 
             if (position < 1) position = 1;
-            if (skip < 1) skip = 10; // או ערך ברירת מחדל אחר
+            if (skip < 1) skip = 10;
 
             List<Product> products = await query.Skip((position - 1) * skip)
             .Take(skip).Include(product => product.Category).ToListAsync();
             var total = await query.CountAsync();
+            
             return (products, total);
         }
 

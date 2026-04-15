@@ -40,6 +40,7 @@ namespace Service
             }
 
             User user = _mapper.Map<User>(userRegisterDto);
+            user.Role = "User";
             User newUser = await _userRepository.AddUser(user);
             return _mapper.Map<UserReadDTO>(newUser);
         }

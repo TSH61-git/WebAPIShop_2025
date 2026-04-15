@@ -4,6 +4,8 @@ namespace Repository
 {
     public interface IOrderRepository
     {
+
+        Task<Order> GetOrderByIdAsync(int id);
         Task<IEnumerable<Order>> GetAllOrdersAsync();
 
         Task<Order?> GetByIdAsync(int orderId);

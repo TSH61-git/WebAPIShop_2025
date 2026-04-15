@@ -5,9 +5,7 @@ namespace WebApiShop.Controllers
 {
     public interface IOrderController
     {
-        void Delete(int id);
-        string Get(int id);
-
+        Task<ActionResult<OrderReadDTO>> GetOrderByID(int id);
         Task<IActionResult> GetAllOrders();
         Task<ActionResult<IEnumerable<OrderReadDTO>>> GetUserOrders(int userId);
         Task<ActionResult<OrderReadDTO>> Post([FromBody] OrderCreateDTO order);

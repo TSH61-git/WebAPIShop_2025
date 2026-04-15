@@ -21,13 +21,6 @@ namespace WebAPIShop.Controllers
             _logger = logger;
         }
 
-        // GET: api/<UsersController>
-        [HttpGet]
-        async public Task<IEnumerable<string>> Get()
-        {
-            return new string[] { "" };
-        }
-
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
         public async Task<ActionResult<UserReadDTO>> Get(int id)
@@ -78,10 +71,5 @@ namespace WebAPIShop.Controllers
             return NoContent();
         }
 
-        // DELETE api/<UsersController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }

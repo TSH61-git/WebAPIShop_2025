@@ -22,9 +22,16 @@ namespace WebApiShop.Controllers
 
         // GET api/<OrderController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<ActionResult<OrderReadDTO>> GetOrderByID(int id)
         {
-            return "value";
+            var order = await _orderService.GetOrderByIDAsync(id);
+            
+            if (order == null)
+            {
+                return NotFound(new { message = $"Order with ID {id} not found." });
+            }
+            
+            return Ok(order);
         }
 
         [HttpGet]
@@ -53,7 +60,7 @@ namespace WebApiShop.Controllers
             var newOrder = await _orderService.addOrder(order);
             if (newOrder == null)
                 return BadRequest();
-            return CreatedAtAction(nameof(Get), new { id = newOrder.OrderId }, newOrder);
+            return CreatedAtAction(nameof(GetOrderByID), new { id = newOrder.OrderId }, newOrder);
         }
 
         // PUT api/<OrderController>/5
@@ -72,12 +79,6 @@ namespace WebApiShop.Controllers
             {
                 return BadRequest(new { Message = ex.Message });
             }
-        }
-
-        // DELETE api/<OrderController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }

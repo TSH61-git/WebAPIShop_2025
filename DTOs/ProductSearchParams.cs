@@ -14,6 +14,7 @@ namespace DTOs
         public decimal? MaxPrice { get; set; }
         public List<int>? CategoryIDs { get; set; }
         public string? OrderBy { get; set; }
+        public bool IsAscending { get; set; }
 
     }
 }

@@ -19,9 +19,9 @@ namespace WebApiShop.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateProduct([FromBody] Product product)
+        public async Task<IActionResult> CreateProduct([FromBody] ProductDTO productDto)
         {
-            var created = await _productService.AddProductAsync(product);
+            var created = await _productService.AddProductAsync(productDto);
             return CreatedAtAction(nameof(GetProductById),
                 new { id = created.ProductId }, created);
         }
@@ -31,9 +31,7 @@ namespace WebApiShop.Controllers
         async public Task<ActionResult<PageResponseDTO<ProductDTO>>> Get(int position, int skip, [FromQuery] ProductSearchParams parameters)
         {
             PageResponseDTO<ProductDTO> pageResponse = await _productService.GetProducts(position, skip, parameters);
-            if (pageResponse.Data.Count() > 0)
-                return Ok(pageResponse);
-            return NotFound();
+            return Ok(pageResponse);
         }
 
         // GET api/<ValuesController>/5
@@ -49,31 +47,5 @@ namespace WebApiShop.Controllers
         }
 
 
-        // PUT api/<ValuesController>/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProduct(int id, [FromBody] Product product)
-        {
-            if (id != product.ProductId)
-                return BadRequest();
-
-            var result = await _productService.UpdateProductAsync(product);
-
-            if (!result)
-                return NotFound();
-
-            return NoContent();
-        }
-
-        // DELETE api/<ValuesController>/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteProduct(int id)
-        {
-            var result = await _productService.DeleteProductAsync(id);
-
-            if (!result)
-                return BadRequest("לא ניתן למחוק מוצר שנרכש");
-
-            return NoContent();
-        }
     }
 }

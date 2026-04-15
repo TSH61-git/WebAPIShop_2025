@@ -22,9 +22,17 @@ namespace Service
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<Order>> GetAllOrdersAsync()
+        public async Task<OrderReadDTO> GetOrderByIDAsync(int id)
         {
-            return await _orderRepository.GetAllOrdersAsync();
+            var order = await _orderRepository.GetOrderByIdAsync(id);
+            if (order == null) return null;
+            return _mapper.Map<OrderReadDTO>(order);
+        }
+
+        public async Task<IEnumerable<OrderReadDTO>> GetAllOrdersAsync()
+        {
+            var orders = await _orderRepository.GetAllOrdersAsync();
+            return _mapper.Map<IEnumerable<OrderReadDTO>>(orders);
         }
         public async Task<IEnumerable<OrderReadDTO>> GetOrdersByUserIdAsync(int userId)
         {
