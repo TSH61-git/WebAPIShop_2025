@@ -48,6 +48,7 @@ namespace Repository
                 user1.Phone = myUser.Phone;
                 user1.City = myUser.City;
                 user1.Street = myUser.Street;
+                user1.Password = myUser.Password;
 
                 await _context.SaveChangesAsync();
             }

@@ -31,8 +31,6 @@ namespace DTOs
         [StringLength(20, MinimumLength = 2, ErrorMessage = "Last name must be between 2 and 20 characters")]
         string LastName,
 
-        [Required(ErrorMessage = "Password is required")]
-        // שימי לב: חוזק סיסמה את בודקת ב-Service, אבל אפשר להוסיף פה אורך מינימלי
         [MinLength(6, ErrorMessage = "Password must be at least 6 characters long")]
         string Password,
 
@@ -46,6 +44,14 @@ namespace DTOs
 
     public record UserUpdateDTO
     (
+
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid email format")]
+        string Email,
+
+        [MinLength(6, ErrorMessage = "Password must be at least 6 characters long")]
+        string Password,
+
         [Required(ErrorMessage = "First name is required")]
         [StringLength(20, MinimumLength = 2, ErrorMessage = "First name must be between 2 and 20 characters")]
         string FirstName,
@@ -65,6 +71,9 @@ namespace DTOs
     public record UserReadDTO
     (
          int UserId,
+
+         [Required]
+         string Email,
 
          [Required]
          string Role,
